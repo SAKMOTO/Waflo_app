@@ -30,6 +30,8 @@ class _CommercePageState extends State<CommercePage> {
   Map<String, dynamic>? _comparisonData;
   List<Map<String, dynamic>> _growthProducts = [];
   String _growthTitle = '';
+  bool _isGrowthLoading = false;
+  String? _growthError;
 
   // Phase 4 — checkout / payment state
   Map<String, dynamic>? _checkoutReady;      // approval gate payload
@@ -63,6 +65,10 @@ class _CommercePageState extends State<CommercePage> {
         });
         _agentStatus = data['status'];
         _isAgentRunning = data['status'] != 'completed' && data['status'] != 'error' && data['status'] != 'cancelled';
+        if ((data['status'] == 'error' || data['status'] == 'cancelled') && _isGrowthLoading) {
+          _isGrowthLoading = false;
+          _growthError ??= 'Growth search stopped. Try again.';
+        }
       });
     });
 
@@ -115,6 +121,10 @@ class _CommercePageState extends State<CommercePage> {
           'isError': true,
         });
         _isAgentRunning = false;
+        if (_isGrowthLoading) {
+          _isGrowthLoading = false;
+          _growthError = data['message'] ?? 'The growth search failed. Please try again.';
+        }
       });
     });
 
@@ -161,13 +171,19 @@ class _CommercePageState extends State<CommercePage> {
     // Cross-sell / upsell result
     _chatService.growthResultStream.listen((data) {
       setState(() {
-        _growthProducts = List<Map<String, dynamic>>.from(data['products'] ?? []);
+        final products = List<Map<String, dynamic>>.from(data['products'] ?? []);
+        _growthProducts = products;
+        _isGrowthLoading = false;
+        if (products.isNotEmpty) {
+          _growthError = null;
+        }
         _growthTitle = data['growth_type'] == 'cross_sell'
             ? 'Compatible accessories'
             : data['growth_type'] == 'upsell'
                 ? 'Better alternatives'
                 : 'Related options';
         _comparisonData = null;
+        _isAgentRunning = false;
         if (data['message'] != null) {
           _agentActivities.add({
             'icon': data['growth_type'] == 'cross_sell' ? Icons.add_shopping_cart : Icons.trending_up,
@@ -336,11 +352,25 @@ class _CommercePageState extends State<CommercePage> {
 
   void _crossSell(int index) {
     if (_currentTaskId == null) return;
+    setState(() {
+      _isGrowthLoading = true;
+      _growthError = null;
+      _growthProducts = [];
+      _growthTitle = 'Searching for compatible accessories...';
+      _comparisonData = null;
+    });
     _chatService.crossSellCommerce(_currentTaskId!, index);
   }
 
   void _upsell(int index) {
     if (_currentTaskId == null) return;
+    setState(() {
+      _isGrowthLoading = true;
+      _growthError = null;
+      _growthProducts = [];
+      _growthTitle = 'Searching for a better alternative...';
+      _comparisonData = null;
+    });
     _chatService.upsellCommerce(_currentTaskId!, index);
   }
 
@@ -494,7 +524,7 @@ class _CommercePageState extends State<CommercePage> {
       body: Row(
         children: [
           // Sidebar
-          sidebar(onNavigate: _handleNavigation),
+          sidebar(onNavigate: _handleNavigation, selectedIndex: 1),
           
           // Main content
           Expanded(
@@ -543,7 +573,7 @@ class _CommercePageState extends State<CommercePage> {
                   _buildPaymentResultPanel(),
 
                 // Growth Products (cross-sell / upsell)
-                if (_growthProducts.isNotEmpty)
+                if (_isGrowthLoading || _growthProducts.isNotEmpty || _growthError != null)
                   Container(
                     height: 210,
                     padding: EdgeInsets.all(16),
@@ -560,15 +590,60 @@ class _CommercePageState extends State<CommercePage> {
                         ),
                         SizedBox(height: 8),
                         Expanded(
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: _growthProducts.length,
-                            itemBuilder: (context, index) {
-                              return CommerceProductCard(
-                                product: _growthProducts[index],
-                              );
-                            },
-                          ),
+                          child: _isGrowthLoading
+                              ? Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      CircularProgressIndicator(color: Colors.blue[300]),
+                                      SizedBox(height: 12),
+                                      Text(
+                                        'Agent searching live for products...',
+                                        style: TextStyle(color: Colors.grey[400], fontSize: 13),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : _growthError != null && _growthProducts.isEmpty
+                                  ? Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 12),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(Icons.search_off, color: Colors.orange[300], size: 32),
+                                            SizedBox(height: 8),
+                                            Text(
+                                              _growthError!,
+                                              style: TextStyle(color: Colors.orange[200], fontSize: 13),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            SizedBox(height: 4),
+                                            Text(
+                                              'Tip: click the same button again to retry.',
+                                              style: TextStyle(color: Colors.grey[500], fontSize: 12),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  : _growthProducts.isEmpty
+                                      ? Center(
+                                          child: Text(
+                                            'No matches found for this search. Try again or pick another product.',
+                                            style: TextStyle(color: Colors.grey[400], fontSize: 13),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        )
+                                      : ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: _growthProducts.length,
+                                          itemBuilder: (context, index) {
+                                            return CommerceProductCard(
+                                              product: _growthProducts[index],
+                                            );
+                                          },
+                                        ),
                         ),
                       ],
                     ),
@@ -645,17 +720,19 @@ class _CommercePageState extends State<CommercePage> {
                               final isSelected = _selectedIndex == index;
                               return Column(
                                 children: [
-                                  CommerceProductCard(
-                                    product: _recommendations[index]['product'],
-                                    score: _recommendations[index]['score'],
-                                    reasoning: _recommendations[index]['reasoning'] == null
-                                        ? null
-                                        : List<String>.from(_recommendations[index]['reasoning'] as List),
+                                  Expanded(
+                                    child: CommerceProductCard(
+                                      product: _recommendations[index]['product'],
+                                      score: _recommendations[index]['score'],
+                                      reasoning: _recommendations[index]['reasoning'] == null
+                                          ? null
+                                          : List<String>.from(_recommendations[index]['reasoning'] as List),
+                                    ),
                                   ),
                                   // Action buttons for the recommendation
                                   Container(
                                     width: 280,
-                                    margin: EdgeInsets.only(right: 12, top: 6),
+                                    margin: EdgeInsets.only(right: 12, top: 2),
                                     child: Row(
                                       children: [
                                         Expanded(
@@ -666,7 +743,7 @@ class _CommercePageState extends State<CommercePage> {
                                             style: OutlinedButton.styleFrom(
                                               foregroundColor: isSelected ? Colors.green : Colors.blue[300],
                                               side: BorderSide(color: isSelected ? Colors.green : Colors.blue[300]!),
-                                              padding: EdgeInsets.symmetric(vertical: 6),
+                                              padding: EdgeInsets.symmetric(vertical: 4),
                                             ),
                                           ),
                                         ),

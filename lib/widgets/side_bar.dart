@@ -4,8 +4,8 @@ import 'package:waflo_app/widgets/side_bar_button.dart';
 
 class sidebar extends StatefulWidget {
   final Function(int)? onNavigate; // Callback for navigation
-  
-  const sidebar({super.key, this.onNavigate});
+  final int selectedIndex;         // 0 = Home, 1 = Commerce
+  const sidebar({super.key, this.onNavigate, this.selectedIndex = 0});
 
   @override
   State<sidebar> createState() => _sidebarState();
@@ -14,6 +14,12 @@ class sidebar extends StatefulWidget {
 class _sidebarState extends State<sidebar> {
   bool isCollapse = true;
   int _selectedIndex = 0; // 0 = Home, 1 = Commerce
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.selectedIndex;
+  }
 
   @override
   Widget build(BuildContext context) {

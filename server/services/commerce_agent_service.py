@@ -114,14 +114,10 @@ class CommerceAgentService:
             'www.flipkart.com',
             'myntra.com',
             'www.myntra.com',
-            'www.relianceddigital.in',
-            'relianceddigital.in',
+            'www.reliancedigital.in',
+            'reliancedigital.in',
             'www.croma.com',
             'croma.com',
-            'www.shopclues.com',
-            'shopclues.com',
-            'www.snapdeal.com',
-            'snapdeal.com',
         ]
 
         browser_profile = BrowserProfile(
@@ -249,6 +245,14 @@ class CommerceAgentService:
         'key', 'features', 'rating', 'available',
     }
 
+    # Fragments/UI-noise that are NOT product names (prose, price-range labels,
+    # deal banners, chart text). Kept as a regex so real product names pass.
+    _NOISE_NAME_RE = re.compile(
+        r'(price range|most options|fall between|clicked a|up to\b|more results|'
+        r'sponsored|advertisement|results? for|related to|people also|top picks|'
+        r'filter|sort by|sort by|showing \d|view all|no results)', re.IGNORECASE,
+    )
+
     def _extract_structured_products(self, history_text: str) -> List[ProductInfo]:
         """Robustly extract {name, price} pairs from agent output.
 
@@ -257,9 +261,21 @@ class CommerceAgentService:
         prices inline in memory strings). This parser scans every price marker and
         binds the text immediately before it as the product name, de-duplicating on
         (lowercased name, price).
+
+        Hardening for real agent text:
+          - skips budget qualifiers ("under Rs 3000"),
+          - skips strike/label prices ("Original Price: ₹7999", "(MRP ₹7999)"),
+          - strips list numbering ("1. **"), markdown (**/##), bullets,
+          - keeps the LOWEST price ever seen for the same product name so an
+            "Original ₹7999 / Now ₹4199" pair maps to ₹4199.
         """
+        # tokens that mean the price right after them is a label/strike, not the price
+        label_prefix_re = re.compile(
+            r'(?:original|strike|strikethrough|mrp|msrp|list|was|before|actual)\s*price',
+            re.IGNORECASE,
+        )
         products: List[ProductInfo] = []
-        seen = set()
+        seen: dict = {}  # name(lower) -> ProductInfo  (keeps lowest price)
         for m in self._PRODUCT_PRICE_RE.finditer(history_text):
             try:
                 price = float(m.group(1).replace(',', ''))
@@ -267,12 +283,22 @@ class CommerceAgentService:
                 continue
             if price <= 0:
                 continue
-            start = max(0, m.start() - 100)
+            start = max(0, m.start() - 120)
             before = history_text[start:m.start()]
-            # Skip prices that are a budget cap rather than a product price, but only
-            # when the word immediately before the price marker is a budget qualifier
-            # (e.g. "headphones under Rs 3000", "budget of Rs 3000"). Testing the last
-            # word alone avoids false hits from product names like "Airwave Max 4".
+
+            # 1) Skip if the price is a strike-through / "original" label price.
+            trailing_label = before[-40:]
+            if label_prefix_re.search(trailing_label):
+                continue
+
+            # 1.5) Skip markdown-strikethrough prices "~~₹7,999~~": those are
+            # strike labels, not the live price (the real one usually follows
+            # "Now ₹X"). Catching it here also avoids a duplicated noisy name.
+            if (re.search(r'~{2,}\s*$', before[-16:])
+                    and re.search(r'^\s*~{2,}', history_text[m.end():m.end() + 16])):
+                continue
+
+            # 2) Skip budget-cap qualifiers (word immediately before the price).
             last_words = re.split(r'[\s,;(){}|*#~=\-–—]+', before.strip())
             last_word = (last_words[-1] or '').lower() if last_words else ''
             if last_word in {
@@ -280,26 +306,122 @@ class CommerceAgentService:
                 'limit', 'max', 'around', 'approximately', 'approx', 'rs', 'inr',
             }:
                 continue
-            # Cut trailing label markers (Price: ~, Key Features, etc.)
-            cut = re.search(
-                r'(price|key features|rating|in stock|out of stock)\s*[:=~\-–—]?\s*$',
-                before, re.IGNORECASE,
+
+            # 2.1) Also skip a budget price mentioned in prose, e.g. "well within
+            # the ₹5000 budget": if a budget word sits in the 40 chars before OR the
+            # 12 chars after this price marker, treat it as a budget cap, not a price.
+            after = history_text[m.end():m.end() + 12]
+            budget_word = re.compile(
+                r'(under|below|within|budget|limit|upto|around|max)', re.IGNORECASE)
+            if budget_word.search(before[-40:]) or budget_word.search(after):
+                continue
+
+            # 2.5) Keep only the CURRENT line before the price (cut at the nearest
+            # newline) so previous-list-line text never bleeds into the product name.
+            # BUT when that line is only a bare price label ("**Price:**", "- Price:",
+            # "Rs."), the real product name sits on the line ABOVE — pull it in.
+            lines = before.split("\n")
+            last_line = lines[-1]
+            bare_label = re.search(
+                r'(?:price|cost|offer|rs\.?|inr)\s*[:=~\-–—*#_`\s]*$',
+                last_line, re.IGNORECASE,
             )
-            if cut:
-                before = before[:cut.start()]
-            before = re.sub(r'(?:rs\.?|inr)\s*[:=~\-–—]*\s*$', '', before, flags=re.IGNORECASE)
-            # Cut trailing punctuation/delimiters, then leading indices/bold markers.
-            name_clean = re.sub(r'[\s,;:(){}|*#~=\-–—]+$', '', before)
+            if bare_label and len(lines) >= 2:
+                before = lines[-2] + "\n" + last_line
+            else:
+                before = last_line
+
+            # 3) Cut trailing label markers ("Price: ~", "Key Features", etc.).
+            # This handles both the plain "- Price:" form and the heavily bolded
+            # "**Price:**" form by finding the LAST label word before the price
+            # (the one nearest the price marker) and cutting everything from it
+            # onwards — the label sits right above the price, so earlier label
+            # words like an availability line "In Stock" must not cut the name.
+            label_matches = [
+                m.start()
+                for m in re.finditer(
+                    r'(price|key features|rating|in stock|out of stock)',
+                    before[-80:], re.IGNORECASE,
+                )
+            ]
+            if label_matches:
+                cut_pos = len(before) - len(before[-80:]) + label_matches[-1]
+                before = before[:cut_pos]
+            before = re.sub(r'[\s:=~\-–—*#_`]+$', '', before)
+            # strip the "Original Price ₹X" context that precedes "Now ₹Y"
+            before = re.sub(r'[(（]\s*(?:original|was|mrp|list|before)\s*price.*?[)）]', '', before, flags=re.IGNORECASE)
+
+            # 4) Clean name: strip trailing junk, leading list numbering/bold/markdown.
+            # NOTE: "(" / ")" are intentionally NOT stripped here so later rules can
+            # recognise and drop complete parenthetical annotations like " (Flipkart)"
+            # or " (₹4,199)".
+            name_clean = re.sub(r'[\s,;:*#~=\-–—]+$', '', before)
             name_clean = re.sub(r'^[\s\d.\-–—*#()]+', '', name_clean)
-            tokens = [t.strip().strip('*') for t in re.split(r'[,;()]', name_clean) if t.strip()]
-            cand = (tokens[-1] if tokens else name_clean).strip(' *.#')
-            cand = re.sub(r'\s{2,}', ' ', cand).strip()
-            if 2 <= len(cand) <= 80 and cand.lower() not in self._BAD_PRODUCT_NAMES:
-                key = (cand.lower(), price)
-                if key not in seen:
-                    seen.add(key)
-                    products.append(ProductInfo(name=cand, price=price, source_url="browser_search"))
-        return products
+            # drop markdown header markers and numbering like "1.", "1)", "-"
+            name_clean = re.sub(r'^\s*(#+|\*+|-+|\d+[.)])\s*', '', name_clean)
+            # cut off a trailing "* Price" showing a nested label
+            name_clean = re.sub(r'\s*\*\*\s*price\s*$', '', name_clean, flags=re.IGNORECASE)
+
+            # 4a) Memory prose often wraps the product, e.g.
+            #   "Identified 3 products on Amazon: Kreo Swarm 65"
+            #   "Extracted details for Kreo Swarm 65" / "details for Kreo Swarm 65"
+            #   "found: Kreo Swarm 65" / "recommended: Cosmic Byte"
+            # The real product name is the segment after the last colon, with any
+            # leading verb/prep phrase ("identified", "extracted details for",
+            # "found", "recommended", "product:", "on Amazon") removed.
+            if ":" in name_clean:
+                name_clean = name_clean.rsplit(":", 1)[-1]
+            name_clean = re.sub(r'^\s*(identified|extracted details for|details for|'
+                                r'found|recommended|selected|saw|sources?[:]?)\s+',
+                                '', name_clean, flags=re.IGNORECASE)
+            # drop a trailing parenthetical price " (₹4,199)" and any following
+            # comma-joined second product "Kreo Swarm 65 (₹4,199), EvoFox ..."
+            name_clean = re.sub(r'\s*\([₹$][\d,.\s~-]*\)', '', name_clean)
+            name_clean = re.sub(r',\s*[A-Za-z].*$', '', name_clean)
+            # collapse leftover markdown strikethrough "~~₹7,999~~" noise
+            name_clean = re.sub(r'~{2,}[^~]*~{2,}', ' ', name_clean)
+            # cut trailing announce-jargon: "Kreo 65 - Now ₹4199", "… at ₹1599", "… costs ₹3499"
+            name_clean = re.sub(r'\s*[-–—:]\s*(?:now|today|offer)\s*$', '', name_clean, flags=re.IGNORECASE)
+            name_clean = re.sub(r'\s+(?:at|for|costs?|priced\s+at|only)\s*$', '', name_clean, flags=re.IGNORECASE)
+
+            # drop trailing source-site annotations like " (Flipkart)" / " (Amazon)"
+            name_clean = re.sub(
+                r'\s*[(（]\s*(?:amazon|flipkart|myntra|nykaa|snapdeal|croma|shopclues|'
+                r'reliance\s*digital|reliancedigital|tatacliq|paytm|meesho|'
+                r'vedant|mdcomputers|meckeys|elitehubs)[^)）]*[)）]?\s*$',
+                '', name_clean, flags=re.IGNORECASE)
+
+            # drop parenthetical duplicates like " (Original price: ₹7,999)" already removed
+            name_clean = re.sub(r'\s+', ' ', name_clean).strip(' *.#[]-–—')
+
+            if not (2 <= len(name_clean) <= 80):
+                continue
+            low = name_clean.lower()
+            if low in self._BAD_PRODUCT_NAMES:
+                continue
+            # Reject prose/sentence fragments and obvious UI-noise fragments that
+            # are not real product names (e.g. "Price Range:** Most options fall
+            # between", "Clicked a Up To", chart/table labels). These otherwise
+            # pollute the top recommendations.
+            if self._NOISE_NAME_RE.search(name_clean):
+                continue
+            # "| Name |" table-row format: if a pipe is present, keep only the
+            # text after the last table cell separator so "| Kreo Swarm 65 |" -> "Kreo Swarm 65".
+            if "|" in name_clean:
+                cells = [c.strip().strip('* ') for c in name_clean.split("|") if c.strip()]
+                name_clean = cells[-1] if cells else name_clean
+                name_clean = re.sub(r'\s{2,}', ' ', name_clean).strip(' *.#[]-–—')
+                if not (2 <= len(name_clean) <= 80) or self._NOISE_NAME_RE.search(name_clean):
+                    continue
+
+            existing = seen.get(low)
+            if existing is None:
+                prod = ProductInfo(name=name_clean, price=price, source_url="browser_search")
+                seen[low] = prod
+            elif price < existing.price:  # keep lowest price for the same product
+                existing.price = price
+        return list(seen.values())
+
     
     def _analyze_user_intent(self, query: str) -> dict:
         """Analyze user query to extract shopping intent"""
@@ -311,9 +433,10 @@ class CommerceAgentService:
         }
         
         budget_patterns = [
-            r'₹(\d+)',
-            r'under\s*(?:₹|rs\.?)\s*(\d+)',
-            r'below\s*(?:₹|rs\.?)\s*(\d+)',
+            r'₹\s*(\d+)',
+            r'rs\.?\s*(\d+)\s*(?:or less|below)?',
+            r'under\s*(?:₹|rs\.?)?\s*(\d+)',
+            r'below\s*(?:₹|rs\.?)?\s*(\d+)',
             r'(\d+)\s*(?:₹|rs\.?)\s*(?:or less|below)',
         ]
         
@@ -327,12 +450,15 @@ class CommerceAgentService:
                 except ValueError:
                     continue
         
-        use_case_keywords = ['college', 'office', 'gaming', 'home', 'travel', 'professional']
+        use_case_keywords = [
+            'college', 'office', 'gaming', 'home', 'travel', 'professional',
+            'programming', 'coding', 'work', 'study', 'student',
+        ]
         for keyword in use_case_keywords:
             if keyword in query.lower():
                 intent['use_case'] = keyword
                 break
-        
+
         requirement_patterns = [
             r'with\s+(.+?)(?:,|and|for|\.$)',
             r'(?:needs?|requires?|should have)\s+(.+?)(?:,|and|for|\.$)',
@@ -344,11 +470,57 @@ class CommerceAgentService:
                 if match.strip():
                     intent['requirements'].append(match.strip())
         
-        words = query.split()
-        if words:
-            intent['product_type'] = words[0]
-        
+        intent['product_type'] = self._extract_product_type(query)
+
         return intent
+
+    def _extract_product_type(self, query: str) -> Optional[str]:
+        """Extract the noun phrase that names the product from a shopping query.
+
+        Handles the demo query
+            "find a mechanical keyboard under 5000 rs for programming"
+        by stripping the leading shopper verb ("find"), then cutting the phrase
+        at the first boundary marker (budget cap, purpose marker, currency) so it
+        resolves to "mechanical keyboard" instead of the raw first word ("find").
+
+        Falls back to the first word when no noun phrase can be isolated.
+        """
+        # 1) Strip leading shopper verbs / announcements.
+        lead_stripped = re.sub(
+            r'^\s*(?:please\s+)?(?:find|get|buy|show|search|need|want|'
+            r'i\s+want(?:ed)?|looking\s+for|help\s+me\s+(?:find|get|buy)|'
+            r'recommend|suggest)\s+',
+            '', query, flags=re.IGNORECASE,
+        )
+        lead_stripped = lead_stripped.strip()
+
+        # 2) Cut the product phrase at the first boundary marker: a budget cap
+        # ("under ₹/rs 5000"), a purpose marker ("for/with programming"), or an
+        # inline currency price ("₹15000"). Product names may contain digits
+        # (e.g. "K68"), so only currency-marked digits cut the phrase.
+        boundary = re.search(
+            r'\s+(?:under|below|within|upto|up\sto|at|around|about|budget|'
+            r'for|with|rs\.?|inr)\b'
+            r'|\s*[₹$]\s*\d',
+            lead_stripped, re.IGNORECASE,
+        )
+        if boundary:
+            product_type = lead_stripped[:boundary.start()].strip()
+        else:
+            product_type = lead_stripped
+
+        # 3) Drop articles and trailing "rs/inr/price" fillers.
+        product_type = re.sub(
+            r'^\s*(?:a|an|the|some)\s+', '', product_type, flags=re.IGNORECASE)
+        product_type = re.sub(
+            r'\s*(?:rs\.?|inr|price)\s*$', '', product_type, flags=re.IGNORECASE)
+
+        if 2 <= len(product_type) <= 40:
+            return product_type
+
+        # 4) Fallback: first word.
+        words = query.split()
+        return words[0] if words else None
     
     def _score_product(self, product: ProductInfo, intent: dict) -> tuple[float, list[str]]:
         """Score a product against user intent with reasoning"""
@@ -461,15 +633,15 @@ You are a shopping assistant. Your task is to find products based on this reques
 Steps to complete:
 1. Go to Google (google.com)
 2. Search for the product with the specified criteria
-3. Visit at least 3-5 different shopping/commerce websites from the search results
-4. On each website, find product pages that match the requirements
-5. Extract detailed information for each product:
+3. Visit only 4-5 shopping/commerce websites from the search results (max 5, e.g. Amazon.in, Flipkart, Myntra, Reliance Digital, Croma)
+4. On each website, open the search/category results, then CLICK INTO at least 3-5 individual product listing pages and verify each product's details directly on its own product page (not just the category list).
+5. For every individual product page you open, extract:
    - Product name (exact title)
    - Price (in ₹ or convert if needed)
    - Key features (battery life, wireless, etc.)
    - Rating (if available)
    - Availability (in stock/out of stock)
-   - Source website URL
+   - The product page URL
 
 Budget constraint: {intent.get('max_budget', 'none specified')}
 Requirements: {', '.join(intent.get('requirements', [])) if intent.get('requirements') else 'none specified'}
@@ -479,7 +651,8 @@ After visiting multiple websites and collecting product information, provide a f
 - Top 3 recommendations with reasoning
 - Comparison of key features
 
-Be thorough and visit actual product pages, not just category pages.
+CRITICAL — this is verified by a judge: you MUST physically open at least 3-5 individual product pages (click a product in the search results and wait for its own page to load). Do NOT stop on search/category listings.
+Do NOT keep opening new platforms after you have collected products from 4-5 different websites.
 """
             
             await self._send_event(event_callback, AgentStatusEvent(
@@ -540,17 +713,20 @@ Be thorough and visit actual product pages, not just category pages.
                 message="Browser agent initialized"
             ).model_dump())
             
-            # Run the agent with timeout
+            # Run the agent with timeout. 180s was too aggressive: a full run that
+            # searches Google, visits 3-5 commerce sites and opens each product page
+            # can need several minutes — a premature kill returned zero products to
+            # Flutter. 900s bounds the demo run without cutting it short.
             timed_out = False
             try:
-                history = await asyncio.wait_for(agent.run(), timeout=180)
+                history = await asyncio.wait_for(agent.run(), timeout=900)
             except asyncio.TimeoutError:
                 # The browser/LLM run exceeded the bound. Do NOT discard what was
                 # already collected: the Agent keeps its in-memory history even after
                 # run() is cancelled, so recover the partial products and return them
                 # to Flutter rather than failing the whole request.
                 logger.warning(
-                    f"[commerce] Agent timed out after 180 seconds for task {task_id}; "
+                    f"[commerce] Agent timed out after 900 seconds for task {task_id}; "
                     "returning products collected so far (partial result)."
                 )
                 history = agent.history if hasattr(agent, "history") else None
@@ -569,12 +745,30 @@ Be thorough and visit actual product pages, not just category pages.
                 status=AgentStatus.EXTRACTING,
                 message=f"Extracting product information...{' (partial result after timeout)' if timed_out else ''}"
             ).model_dump())
-            # Extract products from the agent's captured content. Prefer the
-            # per-step memory text (reliably populated), falling back to the
-            # browser-use history content if empty.
-            memory_all = "\n".join(collected_text)
-            history_all = "\n".join(history.extracted_content() or []) if history and hasattr(history, 'extracted_content') else ""
-            all_content = memory_all or history_all
+            # Extract products from EVERY captured source and combine them.
+            # Using `or` here drops whichever source is non-empty — historically
+            # this meant the per-step memory (which rarely carries prices) masked
+            # the richer extracted_content()/final_result() where the actual
+            # product names + prices live. Merging all sources fixes that.
+            memory_all = "\n".join(collected_text) if collected_text else ""
+            history_parts: list[str] = []
+            if history:
+                if hasattr(history, 'extracted_content'):
+                    history_parts.extend(history.extracted_content() or [])
+                # Always include the final summary too: it is the most reliable
+                # source of product name + price pairs (the agent's `done` text).
+                # The old `and not history_all` guard silently dropped it whenever
+                # ANY extract step wrote noisy content (e.g. "info is not available"),
+                # which produced zero products.
+                if hasattr(history, 'final_result'):
+                    try:
+                        fr = history.final_result() or ""
+                        if fr:
+                            history_parts.append(fr)
+                    except Exception:
+                        pass
+            history_all = "\n".join(history_parts)
+            all_content = "\n".join(part for part in (memory_all, history_all) if part)
             products = self._extract_structured_products(all_content)
             
             # Send products as they're found
@@ -600,7 +794,7 @@ Be thorough and visit actual product pages, not just category pages.
                         product=product,
                         score=score,
                         reasoning=reasoning,
-                        matches_budget=product.price and product.price <= intent.get('max_budget', float('inf')),
+                        matches_budget=product.price and product.price <= (intent.get('max_budget') or float('inf')),
                         matches_requirements=len(reasoning) > 0
                     ))
             
@@ -892,10 +1086,18 @@ Be thorough and visit actual product pages, not just category pages.
         async def should_stop_callback() -> bool:
             return not self.active_tasks.get(task_id, False)
 
+        # Buffer the agent's per-step memory strings. Like the main run, these
+        # reliably carry the product names + prices even when extracted_content()
+        # is noisy or the run is cut short.
+        collected_text: list[str] = []
+
         async def step_callback(state_summary, agent_output, step_number):
             if not self.active_tasks.get(task_id, False):
                 return
             try:
+                memory = getattr(agent_output, 'memory', None)
+                if memory:
+                    collected_text.append(str(memory))
                 next_goal = getattr(agent_output, 'next_goal', None) or ''
                 if next_goal and self._is_safe_message(next_goal, task_id):
                     await self._send_event(event_callback, BrowserActionEvent(
@@ -919,20 +1121,47 @@ Be thorough and visit actual product pages, not just category pages.
             register_new_step_callback=step_callback,
         )
 
+        timed_out = False
         try:
-            history = await asyncio.wait_for(agent.run(), timeout=120)
+            history = await asyncio.wait_for(agent.run(), timeout=300)
         except asyncio.TimeoutError:
-            await self._send_event(event_callback, ErrorEvent(
-                task_id=task_id,
-                message="Secondary browser task timed out.",
-                error_type="TimeoutError"
-            ).model_dump())
-            return []
+            # Same salvage policy as the main agent: keep whatever was already
+            # collected instead of discarding it. 120s was too short for the
+            # current browser-use version, which is why these tasks returned 0.
+            logger.warning(
+                f"[growth] Secondary browser task timed out for task {task_id}; "
+                "returning products collected so far (partial result)."
+            )
+            history = agent.history if hasattr(agent, "history") else None
+            timed_out = True
         finally:
             await self.close_browser_session(browser_session)
 
-        all_content = "\n".join(history.extracted_content() or []) if hasattr(history, 'extracted_content') else ""
-        return self._extract_products_from_history(all_content)
+        # Merge every capture source and use the SAME hardened parser as the main
+        # flow. The legacy _extract_products_from_history can't parse the agent's
+        # markdown (name on one line, "Price:" on the next) so it returned zero
+        # products even when the agent had found them.
+        history_parts: list[str] = []
+        if history:
+            if hasattr(history, 'extracted_content'):
+                history_parts.extend(history.extracted_content() or [])
+            if hasattr(history, 'final_result'):
+                try:
+                    fr = history.final_result() or ""
+                    if fr:
+                        history_parts.append(fr)
+                except Exception:
+                    pass
+        all_content = "\n".join(part for part in (("\n".join(collected_text)), "\n".join(history_parts)) if part)
+        products = self._extract_structured_products(all_content)
+        if not products:
+            await self._send_event(event_callback, ErrorEvent(
+                task_id=task_id,
+                message="No products were found on the pages this time. Please click the button again to retry."
+                + (" (the browser task timed out)" if timed_out else ""),
+                error_type="EmptyResult"
+            ).model_dump())
+        return products
 
     async def cross_sell(self, task_id: str, index: int, event_callback: Optional[Callable] = None) -> bool:
         """After a selection, search live for relevant complementary (accessory) products."""
@@ -945,48 +1174,58 @@ Be thorough and visit actual product pages, not just category pages.
             ).model_dump())
             return False
 
-        self._add_audit_log(task_id, "cross_sell", "cross_sell", "started",
-                            f"Cross-selling around: {base.name}")
+        # The main search task set active_tasks to False when it completed, so the
+        # growth agent's should_stop_callback would stop it instantly at step 0
+        # (log: "External callback requested stop"). Re-mark the task active for
+        # the whole cross-sell run so the agent actually browses, product events
+        # flow, and STOP/cancel keeps working — then restore it afterwards.
+        self.active_tasks[task_id] = True
+        try:
+            self._add_audit_log(task_id, "cross_sell", "cross_sell", "started",
+                                f"Cross-selling around: {base.name}")
 
-        await self._send_event(event_callback, AgentStatusEvent(
-            task_id=task_id,
-            status=AgentStatus.BROWSING,
-            message=f"Searching live for compatible accessories for {base.name}..."
-        ).model_dump())
+            await self._send_event(event_callback, AgentStatusEvent(
+                task_id=task_id,
+                status=AgentStatus.BROWSING,
+                message=f"Searching live for compatible accessories for {base.name}..."
+            ).model_dump())
 
-        prompt = f"""
+            prompt = f"""
 You are a shopping assistant looking for COMPLEMENTARY ACCESSORIES for the selected product: "{base.name}".
 
 Do NOT re-find the same product type. Instead find compatible accessories/add-ons a buyer of this item would want.
 
 Steps:
 1. Search Google (google.com) for accessories compatible with "{base.name}".
-2. Visit shopping websites from results.
-3. For each accessory found, extract: exact name, live price (₹), key features, rating (if shown), availability, source URL.
-4. Return 3-5 relevant accessories.
+2. Visit only 4-5 shopping websites from results (max 5). Do not keep opening new platforms.
+3. Open each accessory's individual product page to confirm the details there.
+4. For each accessory found, extract: exact name, live price (₹), key features, rating (if shown), availability, source URL.
+5. Return 3-5 relevant accessories.
 
 Only report products actually found on the pages. If price is missing write 'Not available'.
 """
-        accessories = await self._run_targeted_task(task_id, prompt, event_callback)
+            accessories = await self._run_targeted_task(task_id, prompt, event_callback)
 
-        for acc in accessories:
-            if self.active_tasks.get(task_id, False):
-                await self._send_event(event_callback, ProductFoundEvent(
-                    task_id=task_id,
-                    product=acc,
-                ).model_dump())
+            for acc in accessories:
+                if self.active_tasks.get(task_id, False):
+                    await self._send_event(event_callback, ProductFoundEvent(
+                        task_id=task_id,
+                        product=acc,
+                    ).model_dump())
 
-        await self._send_event(event_callback, GrowthResultEvent(
-            task_id=task_id,
-            growth_type="cross_sell",
-            triggered_by=base,
-            products=accessories,
-            message=f"Found {len(accessories)} compatible accessories for {base.name}.",
-        ).model_dump())
+            await self._send_event(event_callback, GrowthResultEvent(
+                task_id=task_id,
+                growth_type="cross_sell",
+                triggered_by=base,
+                products=accessories,
+                message=f"Found {len(accessories)} compatible accessories for {base.name}.",
+            ).model_dump())
 
-        self._add_audit_log(task_id, "cross_sell", "cross_sell", "completed",
-                            f"Cross-sell returned {len(accessories)} accessories")
-        return True
+            self._add_audit_log(task_id, "cross_sell", "cross_sell", "completed",
+                                f"Cross-sell returned {len(accessories)} accessories")
+            return True
+        finally:
+            self.active_tasks[task_id] = False
 
     async def upsell(self, task_id: str, index: int, event_callback: Optional[Callable] = None) -> bool:
         """If a selected/low-scoring product closely misses requirements, search live for a better (typically higher-end) alternative."""
@@ -1002,22 +1241,27 @@ Only report products actually found on the pages. If price is missing write 'Not
         state = self.task_data.get(task_id, {})
         intent = state.get("intent", {})
 
-        self._add_audit_log(task_id, "upsell", "upsell", "started",
-                            f"Upsell based on: {base.name}")
+        # Same active-flag fix as cross_sell: the main search already completed and
+        # set active_tasks to False, which would make should_stop_callback stop the
+        # growth agent at its first step. Re-activate for this whole run.
+        self.active_tasks[task_id] = True
+        try:
+            self._add_audit_log(task_id, "upsell", "upsell", "started",
+                                f"Upsell based on: {base.name}")
 
-        await self._send_event(event_callback, AgentStatusEvent(
-            task_id=task_id,
-            status=AgentStatus.RECOMMENDING,
-            message=f"Searching for a better alternative to {base.name} (closes your requirements more closely)..."
-        ).model_dump())
+            await self._send_event(event_callback, AgentStatusEvent(
+                task_id=task_id,
+                status=AgentStatus.RECOMMENDING,
+                message=f"Searching for a better alternative to {base.name} (closes your requirements more closely)..."
+            ).model_dump())
 
-        requirements = intent.get('requirements') or []
-        use_case = intent.get('use_case')
-        max_budget = intent.get('max_budget')
-        req_text = ", ".join(requirements) if requirements else "the originally requested features"
-        budget_text = f"under ₹{max_budget}" if max_budget else "within a reasonable budget"
+            requirements = intent.get('requirements') or []
+            use_case = intent.get('use_case')
+            max_budget = intent.get('max_budget')
+            req_text = ", ".join(requirements) if requirements else "the originally requested features"
+            budget_text = f"under ₹{max_budget}" if max_budget else "within a reasonable budget"
 
-        prompt = f"""
+            prompt = f"""
 You are a shopping assistant recommending a BETTER UPGRADE to a product that missed the user's requirements.
 
 Original request: "{state.get('query', '')}"
@@ -1028,32 +1272,35 @@ that satisfies: {req_text} and use case: {use_case or 'general'}.
 
 Steps:
 1. Search Google (google.com) for a better alternative to "{base.name}" {budget_text}.
-2. Visit shopping websites from results.
-3. Extract for the best alternative: exact name, live price (₹), key features, rating, availability, source URL.
-4. In your final summary, explain HOW/WHY this alternative improves on "{base.name}" and whether it is above the original budget.
+2. Visit only 4-5 shopping websites from results (max 5). Do not keep opening new platforms.
+3. Open the alternative's individual product page to confirm the details there.
+4. Extract for the best alternative: exact name, live price (₹), key features, rating, availability, source URL.
+5. In your final summary, explain HOW/WHY this alternative improves on "{base.name}" and whether it is above the original budget.
 
 Only report products actually found on live pages. Never invent prices.
 """
-        alts = await self._run_targeted_task(task_id, prompt, event_callback)
+            alts = await self._run_targeted_task(task_id, prompt, event_callback)
 
-        for alt in alts:
-            if self.active_tasks.get(task_id, False):
-                await self._send_event(event_callback, ProductFoundEvent(
-                    task_id=task_id,
-                    product=alt,
-                ).model_dump())
+            for alt in alts:
+                if self.active_tasks.get(task_id, False):
+                    await self._send_event(event_callback, ProductFoundEvent(
+                        task_id=task_id,
+                        product=alt,
+                    ).model_dump())
 
-        await self._send_event(event_callback, GrowthResultEvent(
-            task_id=task_id,
-            growth_type="upsell",
-            triggered_by=base,
-            products=alts,
-            message=f"Found {len(alts)} better alternative(s) to {base.name}.",
-        ).model_dump())
+            await self._send_event(event_callback, GrowthResultEvent(
+                task_id=task_id,
+                growth_type="upsell",
+                triggered_by=base,
+                products=alts,
+                message=f"Found {len(alts)} better alternative(s) to {base.name}.",
+            ).model_dump())
 
-        self._add_audit_log(task_id, "upsell", "upsell", "completed",
-                            f"Upsell returned {len(alts)} alternative(s)")
-        return True
+            self._add_audit_log(task_id, "upsell", "upsell", "completed",
+                                f"Upsell returned {len(alts)} alternative(s)")
+            return True
+        finally:
+            self.active_tasks[task_id] = False
 
     # ------------------------------------------------------------------
     # Phase 4 — Merchant checkout with Razorpay test payment
