@@ -1,0 +1,13 @@
+fastapi==0.128.0
+uvicorn==0.40.0
+python-dotenv==1.2.2
+# pydantic and pydantic-settings removed to allow browser-use to resolve dependencies
+huggingface-hub==0.31.2
+tavily-python==0.5.0
+trafilatura==2.0.0
+websockets==15.0.1
+browser-use==0.1.48
+numpy
+sentence-transformers
+openai
+langchain-google-genai

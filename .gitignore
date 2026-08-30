@@ -1,0 +1,70 @@
+# ---------- Secrets (NEVER commit) ----------
+.env
+.env.local
+.env.*.local
+server/.env
+web-ui/.env
+**/.env
+
+# ---------- Python / Virtualenv ----------
+__pycache__/
+*.py[cod]
+server/venv/
+venv/
+.venv/
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+
+# ---------- Vendored / third-party deps ----------
+browser-use/
+web-ui/
+
+# ---------- Build artifacts ----------
+*.vsix
+*.class
+*.log
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# ---------- IDE ----------
+*.iml
+*.ipr
+*.iws
+.idea/
+#.vscode/
+
+# ---------- Flutter / Dart / Pub ----------
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# ---------- Obfuscation ----------
+app.*.symbols
+app.*.map.json
+
+# ---------- Android build ----------
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# ---------- Runtime data / reports ----------
+audit_logs/
+server/audit_logs/
+web-ui/tmp/
+*.bak
+Customised report.json
+report.json
+/report.json
