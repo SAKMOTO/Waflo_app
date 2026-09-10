@@ -1,0 +1,21 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "spline": {
+      "type": "local",
+      "command": [
+        "/Applications/Spline.app/Contents/MacOS/Spline",
+        "/Applications/Spline.app/Contents/Resources/spline-mcp.cjs"
+      ],
+      "enabled": true,
+      "environment": {
+        "ELECTRON_RUN_AS_NODE": "1"
+      }
+    },
+    "supabase": {
+      "type": "remote",
+      "url": "https://mcp.supabase.com/mcp?read_only=true&features=docs%2Caccount%2Cdatabase%2Cdebugging%2Cdevelopment%2Cfunctions%2Cbranching%2Cstorage",
+      "enabled": true
+    }
+  }
+}

@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:waflo_app/theme/colors.dart';
+import 'package:waflo_app/widgets/morph_hint.dart';
 
-class CommerceControls extends StatelessWidget {
+/// Minimal bottom-docked shopping search bar.
+///
+/// [The morph effects]
+/// - The placeholder softly morphs between example queries (blur/fade).
+/// - The whole bar morphs shape + glow when focused.
+/// - When the agent is running the bar + button morph into the "working" state.
+class CommerceControls extends StatefulWidget {
   final TextEditingController queryController;
   final bool isAgentRunning;
   final VoidCallback onStartAgent;
@@ -15,148 +23,227 @@ class CommerceControls extends StatelessWidget {
   });
 
   @override
+  State<CommerceControls> createState() => _CommerceControlsState();
+}
+
+class _CommerceControlsState extends State<CommerceControls> {
+  final FocusNode _focus = FocusNode();
+
+  @override
+  void dispose() {
+    _focus.dispose();
+    super.dispose();
+  }
+
+  void _onSubmitted(String _) {
+    if (widget.isAgentRunning) {
+      widget.onStopAgent();
+    } else {
+      widget.onStartAgent();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey[900],
-        border: Border(
-          bottom: BorderSide(color: Colors.grey[800]!),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header
-          Row(
-            children: [
-              Icon(
-                Icons.shopping_cart,
-                color: Colors.blue,
-                size: 24,
-              ),
-              SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  'AI Shopping Assistant',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              if (isAgentRunning)
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+    final running = widget.isAgentRunning;
+    final focused = _focus.hasFocus;
+
+    final barColor = running
+        ? const Color(0xFF1C1E20)
+        : (focused ? const Color(0xFF232629) : AppColors.searchBar);
+    final barBorder = running
+        ? const Color(0xFF34C77B)
+        : (focused ? AppColors.accent : AppColors.searchBarBorder);
+    final glow = running || focused;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Status / hint caption that morphs with the agent state.
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          switchInCurve: Curves.easeOut,
+          switchOutCurve: Curves.easeIn,
+          child: running
+              ? Padding(
+                  key: const ValueKey('running'),
+                  padding: const EdgeInsets.only(left: 6, bottom: 8),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                         height: 8,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xFF34C77B)),
                         ),
                       ),
-                      SizedBox(width: 6),
+                      const SizedBox(width: 6),
                       Text(
-                        'Active',
-                        style: TextStyle(
-                          color: Colors.green,
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        'Agent is shopping...',
+                        style: TextStyle(color: Colors.grey[400], fontSize: 12),
                       ),
                     ],
                   ),
+                )
+              : Padding(
+                  key: const ValueKey('idle'),
+                  padding: const EdgeInsets.only(left: 6, bottom: 8),
+                  child: Text(
+                    'Ask me and I will find the best 2-3 options for you.',
+                    style: TextStyle(color: Colors.grey[500], fontSize: 12),
+                  ),
                 ),
-            ],
+        ),
+        // The morphing search bar.
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 320),
+          curve: Curves.easeOutCubic,
+          width: double.infinity,
+          padding: EdgeInsets.fromLTRB(18, running ? 10 : 12, 8, running ? 10 : 12),
+          decoration: BoxDecoration(
+            color: barColor,
+            borderRadius: BorderRadius.circular(focused ? 16 : 28),
+            border: Border.all(color: barBorder, width: focused || running ? 1.4 : 1),
+            boxShadow: glow
+                ? [
+                    BoxShadow(
+                      color: (running ? const Color(0xFF34C77B) : AppColors.accent)
+                          .withValues(alpha: 0.22),
+                      blurRadius: running ? 18 : 12,
+                      spreadRadius: running ? 1 : 0,
+                    ),
+                  ]
+                : const [],
           ),
-          SizedBox(height: 16),
-          
-          // Query Input
-          TextField(
-            controller: queryController,
-            enabled: !isAgentRunning,
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              hintText: 'Describe what you want to buy, e.g. "a 65W GaN charger under ₹2000"',
-              hintStyle: TextStyle(color: Colors.grey[400]),
-              filled: true,
-              fillColor: Colors.grey[800],
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide.none,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: Colors.grey[700]!),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: Colors.blue),
-              ),
-            ),
-            maxLines: 2,
-          ),
-          SizedBox(height: 12),
-          
-          // Action Buttons
-          Row(
+          child: Row(
             children: [
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: isAgentRunning ? null : onStartAgent,
-                  icon: Icon(isAgentRunning ? Icons.hourglass_empty : Icons.search),
-                  label: Text(isAgentRunning ? 'Searching...' : 'Start Search'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isAgentRunning ? Colors.grey : Colors.blue,
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
+              // Morph icon: search when idle, auto-awesome highlight on focus.
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                child: Icon(
+                  focused && !running ? Icons.auto_awesome : Icons.search,
+                  key: ValueKey(focused && !running),
+                  size: 20,
+                  color: running ? const Color(0xFF34C77B) : AppColors.iconGrey,
                 ),
               ),
-              SizedBox(width: 12),
-              if (isAgentRunning)
-                ElevatedButton.icon(
-                  onPressed: onStopAgent,
-                  icon: Icon(Icons.stop),
-                  label: Text('Stop'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: ValueListenableBuilder<TextEditingValue>(
+                  valueListenable: widget.queryController,
+                  builder: (context, value, _) {
+                    const style = TextStyle(color: Colors.white, fontSize: 13);
+                    return Stack(
+                      children: [
+                        if (value.text.isEmpty)
+                          Positioned.fill(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: MorphHint(
+                                phrases: const [
+                                  'Wireless earbuds under ₹5000...',
+                                  'A 65W GaN charger...',
+                                  'Sneakers that match my gym bag...',
+                                  'Best budget mechanical keyboard...',
+                                ],
+                                style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          ),
+                        TextField(
+                          controller: widget.queryController,
+                          focusNode: _focus,
+                          style: style,
+                          enabled: !running,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(color: Colors.white, fontSize: 13),
+                            isDense: true,
+                            contentPadding: EdgeInsets.zero,
+                          ),
+                          onSubmitted: _onSubmitted,
+                        ),
+                      ],
+                    );
+                  },
                 ),
+              ),
+              const SizedBox(width: 8),
+              // The morphing run/stop button.
+              _ActionButton(
+                running: running,
+                onPressed: running ? widget.onStopAgent : widget.onStartAgent,
+                empty: widget.queryController.text.trim().isEmpty,
+              ),
             ],
           ),
-          
-          // Help Text
-          Padding(
-            padding: EdgeInsets.only(top: 12),
-            child: Text(
-              'Tip: Mention budget, features or use case. Compare top picks, then Buy now to check out securely with Razorpay.',
-              style: TextStyle(
-                color: Colors.grey[400],
-                fontSize: 12,
-                height: 1.4,
+        ),
+      ],
+    );
+  }
+}
+
+/// Circular pill that morphs between the idle "start" state and the running
+/// "stop" state (icon, color, glow).
+class _ActionButton extends StatelessWidget {
+  const _ActionButton({
+    required this.running,
+    required this.onPressed,
+    required this.empty,
+  });
+
+  final bool running;
+  final VoidCallback onPressed;
+  final bool empty;
+
+  @override
+  Widget build(BuildContext context) {
+    final enabled = running || !empty;
+    return Tooltip(
+      message: running ? 'Stop agent' : 'Start search',
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOutCubic,
+        decoration: BoxDecoration(
+          color: running ? const Color(0xFFE5484D) : AppColors.submitButton,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: (running ? const Color(0xFFE5484D) : AppColors.accent)
+                  .withValues(alpha: enabled ? 0.35 : 0),
+              blurRadius: 14,
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: enabled ? onPressed : null,
+            customBorder: const CircleBorder(),
+            child: SizedBox(
+              width: 44,
+              height: 44,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                child: running
+                    ? const Icon(Icons.stop, key: ValueKey('stop'), color: Colors.white, size: 22)
+                    : Icon(
+                        Icons.arrow_forward,
+                        key: const ValueKey('send'),
+                        color: enabled ? AppColors.background : Colors.white24,
+                        size: 20,
+                      ),
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

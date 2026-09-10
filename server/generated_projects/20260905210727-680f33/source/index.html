@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roasty Brews — Craft Coffee, Roasted with Care</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Sticky Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-brand">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 14h16a4 4 0 0 1 0 8h-1.5"></path>
+                        <path d="M8 22h12"></path>
+                        <path d="M10 10c0-2 1-3 2-3s2 1 2 3"></path>
+                        <path d="M14 10c0-2 1-3 2-3s2 1 2 3"></path>
+                        <path d="M6 18h-2"></path>
+                    </svg>
+                </span>
+                <span class="brand-text">Roasty Brews</span>
+            </a>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="hamburger"></span>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#hero" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">Our Story</a></li>
+                <li><a href="#coffees" class="nav-link">Coffees</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="hero-content">
+            <p class="hero-eyebrow">Small batch · Slow roasted</p>
+            <h1 class="hero-title">Roasty Brews</h1>
+            <p class="hero-subtitle">A cup of honesty, hand-roasted in the foothills. Single-origin beans, gentle flames, and a ritual you'll taste in every sip.</p>
+            <a href="#coffees" class="btn btn-primary hero-cta" id="heroCta">Explore Our Coffees</a>
+        </div>
+        <div class="hero-steam" aria-hidden="true">
+            <span></span><span></span><span></span>
+        </div>
+    </section>
+
+    <!-- About / Our Story Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="section-head">
+                <p class="section-eyebrow">Our Story</p>
+                <h2 class="section-title">Roasting with patience, brewing with intention.</h2>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>We started Roasty Brews in a converted garage with a single drum roaster and a stubborn idea: that coffee should taste like where it came from. Years later, we still chase that idea — sourcing beans directly from small farms, profiling every roast by hand, and letting the bean decide when it's done.</p>
+
+                    <p>Our philosophy is simple. <strong>Heat is a tool, not a shortcut.</strong> We develop flavor slowly, so sweetness leads and bitterness never shows up uninvited. The result is coffee that is balanced, aromatic, and honest — the kind of cup you remember.</p>
+
+                    <ul class="about-points">
+                        <li>
+                            <span class="point-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"></path><path d="M8 8c0 4 4 8 4 8s4-4 4-8a4 4 0 0 0-8 0z"></path></svg>
+                            </span>
+                            <div>
+                                <h3>Single-Origin Beans</h3>
+                                <p>Traceable lots from family farms across Ethiopia, Colombia, and Indonesia.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="point-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8 7 6 11 6 14a6 6 0 0 0 12 0c0-3-2-7-6-12z"></path></svg>
+                            </span>
+                            <div>
+                                <h3>Slow Drum Roasting</h3>
+                                <p>Small batches, developed to bring out sweetness, not scorch the origin.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="point-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+                            </span>
+                            <div>
+                                <h3>Roasted to Order</h3>
+                                <p>Every bag ships within 48 hours of roasting, so the flavor is still alive.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="about-image" aria-hidden="true">
+                    <div class="image-frame">
+                        <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" class="image-svg">
+                            <defs>
+                                <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stop-color="#5a3a28"/>
+                                    <stop offset="100%" stop-color="#3B2417"/>
+                                </linearGradient>
+                                <linearGradient id="beanGrad" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#7a4a32"/>
+                                    <stop offset="100%" stop-color="#3B2417"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="400" height="500" fill="url(#bgGrad)"/>
+                            <!-- Coffee beans -->
+                            <g fill="url(#beanGrad)" stroke="#2a1810" stroke-width="2">
+                                <ellipse cx="120" cy="140" rx="55" ry="35" transform="rotate(-25 120 140)"/>
+                                <ellipse cx="260" cy="180" rx="55" ry="35" transform="rotate(15 260 180)"/>
+                                <ellipse cx="180" cy="260" rx="55" ry="35" transform="rotate(-10 180 260)"/>
+                                <ellipse cx="300" cy="340" rx="55" ry="35" transform="rotate(30 300 340)"/>
+                                <ellipse cx="140" cy="380" rx="55" ry="35" transform="rotate(-30 140 380)"/>
+                                <ellipse cx="80" cy="270" rx="55" ry="35" transform="rotate(20 80 270)"/>
+                                <ellipse cx="240" cy="420" rx="55" ry="35" transform="rotate(-15 240 420)"/>
+                            </g>
+                            <!-- Bean seams -->
+                            <g fill="none" stroke="#1a0f08" stroke-width="2.5" stroke-linecap="round">
+                                <path d="M85 130 Q120 140 155 150" transform="rotate(-25 120 140)"/>
+                                <path d="M225 170 Q260 180 295 190" transform="rotate(15 260 180)"/>
+                                <path d="M145 250 Q180 260 215 270" transform="rotate(-10 180 260)"/>
+                                <path d="M265 330 Q300 340 335 350" transform="rotate(30 300 340)"/>
+                                <path d="M105 370 Q140 380 175 390" transform="rotate(-30 140 380)"/>
+                                <path d="M45 260 Q80 270 115 280" transform="rotate(20 80 270)"/>
+                                <path d="M205 410 Q240 420 275 430" transform="rotate(-15 240 420)"/>
+                            </g>
+                            <!-- Steam -->
+                            <g fill="none" stroke="#F5E9D7" stroke-width="3" stroke-linecap="round" opacity="0.6">
+                                <path d="M200 60 Q210 40 200 20 Q190 0 200 -20"/>
+                                <path d="M230 70 Q240 50 230 30"/>
+                                <path d="M170 70 Q160 50 170 30"/>
+                            </g>
+                        </svg>
+                        <div class="image-caption">Hand-selected beans, slow-roasted in small batches.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coffees / Products Section -->
+    <section class="section coffees" id="coffees">
+        <div class="container">
+            <div class="section-head">
+                <p class="section-eyebrow">Our Coffees</p>
+                <h2 class="section-title">Three blends we never get tired of.</h2>
+                <p class="section-sub">Each one is roasted in small batches, cupped by our team, and shipped within the week.</p>
+            </div>
+
+            <div class="product-grid">
+                <!-- Card 1 -->
+                <article class="product-card">
+                    <div class="product-image" data-color="#C97B3A">
+                        <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet">
+                            <circle cx="100" cy="100" r="90" fill="#F5E9D7"/>
+                            <circle cx="100" cy="100" r="70" fill="#C97B3A"/>
+                            <circle cx="100" cy="100" r="55" fill="#3B2417"/>
+                            <circle cx="100" cy="100" r="40" fill="#C97B3A"/>
+                            <path d="M100 70 Q90 85 100 100 Q110 115 100 130" stroke="#F5E9D7" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="product-body">
+                        <h3 class="product-name">Morning Ember</h3>
+                        <p class="product-roast">
+                            <span class="roast-label">Roast</span>
+                            <span class="roast-dots" data-level="2">
+                                <i></i><i></i><i></i><i></i><i></i>
+                            </span>
+                            <span class="roast-text">Medium</span>
+                        </p>
+                        <p class="product-notes">Cocoa, dried cherry, and a soft citrus finish. Built for pour-over and the first quiet hour of the day.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$18<small>/ 12oz</small></span>
+                            <button class="btn btn-ghost" type="button">Add to Bag</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 2 -->
+                <article class="product-card featured">
+                    <span class="badge">House Favorite</span>
+                    <div class="product-image" data-color="#8B4513">
+                        <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet">
+                            <circle cx="100" cy="100" r="90" fill="#F5E9D7"/>
+                            <circle cx="100" cy="100" r="70" fill="#8B4513"/>
+                            <circle cx="100" cy="100" r="55" fill="#3B2417"/>
+                            <circle cx="100" cy="100" r="40" fill="#8B4513"/>
+                            <path d="M85 90 L115 110 M85 110 L115 90" stroke="#F5E9D7" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="product-body">
+                        <h3 class="product-name">Foothills Dark</h3>
+                        <p class="product-roast">
+                            <span class="roast-label">Roast</span>
+                            <span class="roast-dots" data-level="4">
+                                <i></i><i></i><i></i><i></i><i></i>
+                            </span>
+                            <span class="roast-text">Dark</span>
+                        </p>
+                        <p class="product-notes">Dark chocolate, toasted almond, and a hint of molasses. Bold, syrupy, and built for espresso.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$20<small>/ 12oz</small></span>
+                            <button class="btn btn-ghost" type="button">Add to Bag</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 3 -->
+                <article class="product-card">
+                    <div class="product-image" data-color="#A0522D">
+                        <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet">
+                            <circle cx="100" cy="100" r="90" fill="#F5E9D7"/>
+                            <circle cx="100" cy="100" r="70" fill="#A0522D"/>
+                            <circle cx="100" cy="100" r="55" fill="#3B2417"/>
+                            <circle cx="100" cy="100" r="40" fill="#A0522D"/>
+                            <path d="M75 100 Q100 80 125 100 Q100 120 75 100" stroke="#F5E9D7" stroke-width="3" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="product-body">
+                        <h3 class="product-name">Highland Bloom</h3>
+                        <p class="product-roast">
+                            <span class="roast-label">Roast</span>
+                            <span class="roast-dots" data-level="1">
+                                <i></i><i></i><i></i><i></i><i></i>
+                            </span>
+                            <span class="roast-text">Light</span>
+                        </p>
+                        <p class="product-notes">Jasmine, bergamot, and ripe peach. A bright, tea-like cup that shows off the bean's origin.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$22<small>/ 12oz</small></span>
+                            <button class="btn btn-ghost" type="button">Add to Bag</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="section-head">
+                <p class="section-eyebrow">Visit & Say Hello</p>
+                <h2 class="section-title">Come by the roastery, or send us a note.</h2>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>The Roastery</h3>
+                    <ul class="contact-list">
+                        <li>
+                            <span class="ci-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-7-8-13a8 8 0 0 1 16 0c0 6-8 13-8 13z"></path><circle cx="12" cy="9" r="3"></circle></svg>
+                            </span>
+                            <div>
+                                <strong>Address</strong>
+                                <p>428 Copper Lane<br>Boise, ID 83702</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="ci-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92V21a1 1 0 0 1-1.1 1A19 19 0 0 1 2 4.1 1 1 0 0 1 3 3h4.1a1 1 0 0 1 1 .75l1 4a1 1 0 0 1-.3 1L7 10.5a16 16 0 0 0 6.5 6.5l1.8-1.8a1 1 0 0 1 1-.3l4 1a1 1 0 0 1 .75 1z"></path></svg>
+                            </span>
+                            <div>
+                                <strong>Phone</strong>
+                                <p>(208) 555-0142</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="ci-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>
+                            </span>
+                            <div>
+                                <strong>Email</strong>
+                                <p>hello@roastybrews.com</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="ci-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+                            </span>
+                            <div>
+                                <strong>Hours</strong>
+                                <p>Mon–Fri · 7am – 6pm<br>Sat–Sun · 8am – 4pm</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="contact-form-wrap">
+                    <form class="contact-form" id="contactForm" novalidate>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" placeholder="Your name">
+                            <small class="form-error" data-for="name"></small>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="you@example.com">
+                            <small class="form-error" data-for="email"></small>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Tell us what you're brewing, or what you'd like to taste next."></textarea>
+                            <small class="form-error" data-for="message"></small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                        <div class="form-success" id="formSuccess" role="status" aria-live="polite">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+                            <span>Thanks — your note is on its way. We'll reply within a day.</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 14h16a4 4 0 0 1 0 8h-1.5"></path>
+                        <path d="M8 22h12"></path>
+                        <path d="M10 10c0-2 1-3 2-3s2 1 2 3"></path>
+                        <path d="M14 10c0-2 1-3 2-3s2 1 2 3"></path>
+                    </svg>
+                </span>
+                <span>Roasty Brews</span>
+            </div>
+
+            <div class="footer-contact">
+                <p>428 Copper Lane, Boise, ID 83702</p>
+                <p>hello@roastybrews.com · (208) 555-0142</p>
+            </div>
+
+            <div class="footer-social">
+                <a href="#" aria-label="Instagram" class="social-link">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle></svg>
+                </a>
+                <a href="#" aria-label="Twitter" class="social-link">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+                </a>
+                <a href="#" aria-label="Facebook" class="social-link">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                </a>
+                <a href="#" aria-label="YouTube" class="social-link">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 8.5a4.5 4.5 0 0 0-3.5-3.5C16 4.5 12 4.5 12 4.5s-4 0-6.5.5A4.5 4.5 0 0 0 2 8.5 47 47 0 0 0 1.5 12 47 47 0 0 0 2 15.5a4.5 4.5 0 0 0 3.5 3.5C8 19.5 12 19.5 12 19.5s4 0 6.5-.5a4.5 4.5 0 0 0 3.5-3.5A47 47 0 0 0 22.5 12 47 47 0 0 0 22 8.5z"></path><path d="M10 9l5 3-5 3z" fill="currentColor"></path></svg>
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Roasty Brews Coffee Co. Brewed slowly in Idaho.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

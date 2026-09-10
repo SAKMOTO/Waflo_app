@@ -1,7 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:lottie/lottie.dart';
+import 'package:waflo_app/controllers/chat_history_controller.dart';
 import 'package:waflo_app/services/chat_web_service.dart';
 import 'package:waflo_app/services/razorpay_checkout.dart';
+import 'package:waflo_app/theme/colors.dart';
+import 'package:waflo_app/widgets/chat_history_sidebar.dart';
 import 'package:waflo_app/widgets/commerce_agent_timeline.dart';
 import 'package:waflo_app/widgets/commerce_product_card.dart';
 import 'package:waflo_app/widgets/commerce_controls.dart';
@@ -24,7 +29,7 @@ class _CommercePageState extends State<CommercePage> {
   List<Map<String, dynamic>> _recommendations = [];
   String? _currentTaskId;
   bool _isAgentRunning = false;
-  String _agentStatus = '';
+  bool _historyOpen = false;
   int? _selectedIndex;
   Map<String, dynamic>? _pendingConfirmation;
   Map<String, dynamic>? _comparisonData;
@@ -63,7 +68,6 @@ class _CommercePageState extends State<CommercePage> {
           'message': data['message'],
           'timestamp': DateTime.now(),
         });
-        _agentStatus = data['status'];
         _isAgentRunning = data['status'] != 'completed' && data['status'] != 'error' && data['status'] != 'cancelled';
         if ((data['status'] == 'error' || data['status'] == 'cancelled') && _isGrowthLoading) {
           _isGrowthLoading = false;
@@ -91,7 +95,11 @@ class _CommercePageState extends State<CommercePage> {
     // Listen to found products
     _chatService.productFoundStream.listen((data) {
       setState(() {
-        _foundProducts.add(data['product']);
+        // The backend now bounds its result set, but keep the UI bounded too so
+        // a noisy run can never flood the screen with more than a few products.
+        if (_foundProducts.length < 3) {
+          _foundProducts.add(data['product']);
+        }
       });
     });
 
@@ -313,6 +321,7 @@ class _CommercePageState extends State<CommercePage> {
       _comparisonData = null;
       _growthProducts = [];
       _growthTitle = '';
+      _growthError = null;
       _checkoutReady = null;
       _checkoutBlocked = null;
       _paymentInitiated = null;
@@ -503,18 +512,14 @@ class _CommercePageState extends State<CommercePage> {
 
   void _handleNavigation(int index) {
     if (index == 0) {
-      Navigator.pushReplacementNamed(context, '/');
+      Navigator.pushReplacementNamed(context, '/home');
     }
   }
 
-  Future<void> _launchWebUI() async {
-    final Uri webUiUrl = Uri.parse('http://127.0.0.1:7788');
-    if (!await launchUrl(webUiUrl, mode: LaunchMode.externalApplication)) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Could not launch web-ui')),
-        );
-      }
+  void _toggleHistory() {
+    setState(() => _historyOpen = !_historyOpen);
+    if (_historyOpen) {
+      unawaited(ChatHistoryController.instance.refreshConversations());
     }
   }
 
@@ -524,26 +529,25 @@ class _CommercePageState extends State<CommercePage> {
       body: Row(
         children: [
           // Sidebar
-          sidebar(onNavigate: _handleNavigation, selectedIndex: 1),
+          sidebar(
+            onNavigate: _handleNavigation,
+            onNavigateBuilder: () => Navigator.pushNamed(context, '/builder'),
+            selectedIndex: 1,
+            chatHistoryExpanded: _historyOpen,
+            onChatHistoryToggle: _toggleHistory,
+          ),
+          ChatHistorySidebar(open: _historyOpen, onToggle: _toggleHistory),
           
           // Main content
           Expanded(
             child: Column(
               children: [
-                // Commerce Controls
-                CommerceControls(
-                  queryController: _queryController,
-                  isAgentRunning: _isAgentRunning,
-                  onStartAgent: _startAgent,
-                  onStopAgent: _stopAgent,
-                ),
-                
-                // Agent Activity Timeline
-                Expanded(
-                  child: CommerceAgentTimeline(
-                    activities: _agentActivities,
-                  ),
-                ),
+                // Minimal top bar
+                _buildTopBar(),
+
+                // Middle stage: the Lottie hero sits centered here (not pinned
+                // to the top) with the live agent timeline beneath it.
+                Expanded(child: _buildStage()),
 
                 // Result panels below the timeline stack as flexible, scrollable
                 // content so many panels never overflow the viewport.
@@ -792,10 +796,168 @@ class _CommercePageState extends State<CommercePage> {
                     ),
                   ),
                 ),
+                // Docked bottom search bar
+                _buildBottomBar(),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildTopBar() {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(24, 16, 8, 6),
+      child: Row(
+        children: [
+          Container(
+            width: 34,
+            height: 34,
+            decoration: BoxDecoration(
+              color: AppColors.accent.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(Icons.shopping_bag_outlined, color: AppColors.accent, size: 18),
+          ),
+          const SizedBox(width: 12),
+          const Text(
+            'AI Shopping',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const Spacer(),
+          if (_isAgentRunning)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                color: const Color(0xFF34C77B).withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: 8,
+                    height: 8,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF34C77B)),
+                    ),
+                  ),
+                  SizedBox(width: 6),
+                  Text(
+                    'Active',
+                    style: TextStyle(
+                      color: Color(0xFF34C77B),
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          IconButton(
+            onPressed: _toggleHistory,
+            icon: const Icon(Icons.history, color: Colors.white70, size: 20),
+            tooltip: 'History',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStage() {
+    final idle = !_isAgentRunning &&
+        _agentActivities.isEmpty &&
+        _foundProducts.isEmpty &&
+        _recommendations.isEmpty &&
+        _growthProducts.isEmpty &&
+        _growthError == null &&
+        _pendingConfirmation == null &&
+        _comparisonData == null &&
+        _checkoutReady == null &&
+        _checkoutBlocked == null &&
+        _paymentResult == null;
+
+    if (idle) {
+      // Dead-center hero while nothing has been searched yet.
+      return Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(vertical: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: 300,
+                height: 200,
+                child: Lottie.asset(
+                  'assets/mobile_shopping.json',
+                  fit: BoxFit.contain,
+                  repeat: true,
+                  animate: true,
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'What are we shopping for today?',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Ask me and I will find the best 2-3 options for you.',
+                style: TextStyle(color: Colors.grey[400], fontSize: 13),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Work mode: compact centerpiece with the live agent timeline beneath it.
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Center(
+            child: SizedBox(
+              width: 150,
+              height: 100,
+              child: Lottie.asset(
+                'assets/mobile_shopping.json',
+                fit: BoxFit.contain,
+                repeat: true,
+                animate: true,
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          if (_agentActivities.isNotEmpty)
+            CommerceAgentTimeline(activities: _agentActivities),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottomBar() {
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 6, 20, 20),
+        child: CommerceControls(
+          queryController: _queryController,
+          isAgentRunning: _isAgentRunning,
+          onStartAgent: _startAgent,
+          onStopAgent: _stopAgent,
+        ),
       ),
     );
   }

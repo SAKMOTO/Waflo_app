@@ -1,0 +1,336 @@
+```css
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F9F6F0;
+    color: #2A1B17;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #2A1B17;
+    color: #F9F6F0;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+nav a {
+    margin: 0 1rem;
+    color: #F9F6F0;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+nav a:hover {
+    color: #C87D55;
+}
+
+.sample-box-btn {
+    background-color: #C87D55;
+    color: #F9F6F0;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hero-section {
+    background-image: url('https://via.placeholder.com/1200x400');
+    background-size: cover;
+    background-position: center;
+    color: #F9F6F0;
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-buttons .primary-btn {
+    background-color: #C87D55;
+    color: #F9F6F0;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hero-buttons .secondary-btn {
+    background-color: #F9F6F0;
+    color: #2A1B17;
+    border: 2px solid #2A1B17;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.coffee-shop, .brew-guide, .visit-tastings {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+}
+
+.filter-bar button {
+    background-color: transparent;
+    border: none;
+    color: #2A1B17;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    margin-right: 0.5rem;
+}
+
+.filter-bar button.active {
+    background-color: #C87D55;
+    color: #F9F6F0;
+    border-radius: 5px;
+}
+
+.coffee-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.coffee-card {
+    background-color: #F9F6F0;
+    border: 1px solid #2A1B17;
+    border-radius: 5px;
+    padding: 1rem;
+    width: 200px;
+}
+
+.coffee-card img {
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+}
+
+.coffee-card .origin-flag {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #2A1B17;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.coffee-card .roast-meter {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}
+
+.coffee-card .flavor-tags {
+    color: #C87D55;
+    margin-top: 0.5rem;
+}
+
+.coffee-card .price {
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+.coffee-card .add-btn {
+    background-color: #C87D55;
+    color: #F9F6F0;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+.brew-guide .brew-calculator {
+    background-color: #F9F6F0;
+    border: 1px solid #2A1B17;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+.method-tabs button {
+    background-color: transparent;
+    border: none;
+    color: #2A1B17;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    margin-right: 0.5rem;
+}
+
+.method-tabs button.active {
+    background-color: #C87D55;
+    color: #F9F6F0;
+    border-radius: 5px;
+}
+
+.slider {
+    margin-top: 1rem;
+}
+
+.slider input {
+    width: 100%;
+}
+
+.slider .slider-value {
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+.ratio, .grind-size {
+    margin-top: 1rem;
+}
+
+.brew-steps {
+    margin-top: 2rem;
+}
+
+.brew-steps ul {
+    list-style: none;
+    padding: 0;
+}
+
+.tasting-room {
+    background-color: #F9F6F0;
+    border: 1px solid #2A1B17;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+.reservation-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.reservation-form form label {
+    margin-bottom: 0.5rem;
+}
+
+.reservation-form form input {
+    padding: 0.5rem;
+    border: 1px solid #2A1B17;
+    border-radius: 5px;
+}
+
+.reservation-form form button {
+    background-color: #C87D55;
+    color: #F9F6F0;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.confirmation-message {
+    margin-top: 1rem;
+    color: #C87D55;
+    text-align: center;
+}
+
+footer {
+    background-color: #2A1B17;
+    color: #F9F6F0;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.footer-container > div {
+    flex: 1;
+    margin: 0 1rem;
+}
+
+.newsletter form {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.newsletter form input {
+    padding: 0.5rem;
+    border: 1px solid #2A1B17;
+    border-radius: 5px;
+}
+
+.origin-map-teaser {
+    text-align: left;
+}
+
+.sample-box-drawer {
+    position: fixed;
+    right: -300px;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #F9F6F0;
+    border-left: 1px solid #2A1B17;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s;
+}
+
+.sample-box-drawer.active {
+    right: 0;
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #2A1B17;
+}
+
+.close-btn {
+    background-color: transparent;
+    border: none;
+    color: #C87D55;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.selected-bags {
+    padding: 1rem;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.selected-bags .coffee-card {
+    margin-bottom: 1rem;
+}
+
+.total-price {
+    padding: 1rem;
+    border-top: 1px solid #2A1B17;
+    text-align: right;
+}
+```

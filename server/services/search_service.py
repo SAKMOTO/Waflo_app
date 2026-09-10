@@ -34,14 +34,22 @@ class SearchService:
             search_results = response.get('results',[])
             images = response.get('images', [])
 
-            for result in search_results:
-               downloaded = trafilatura.fetch_url(result.get('url'))
-               content =trafilatura.extract(downloaded,include_comments=False)
+            # Full-text extraction of every result URL is very slow (fetches
+            # each page over the network, ~15-20s total) and blocks the async
+            # WebSocket event loop -> keepalive ping timeouts for the client.
+            # Extract content for a short prefix so the chat lists real sources
+            # without the multi-second stall.
+            for result in search_results[:4]:
+               try:
+                  downloaded = trafilatura.fetch_url(result.get('url'))
+                  content =trafilatura.extract(downloaded,include_comments=False)
 
-               if content is None:
+                  if content is None:
+                     content = ""
+               except Exception:
                   content = ""
            
-           
+            
                resluts.append(
                    {
                        "title": result.get("title",""),

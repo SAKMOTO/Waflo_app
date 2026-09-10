@@ -19,6 +19,12 @@ class Settings(BaseSettings):
     # Browser Use API (for AI Agentic Commerce)
     BROWSER_USE_API_KEY: str = ""
 
+    # Firecrawl (ARIA research tool): cloud endpoint (https://api.firecrawl.dev)
+    # or any self-hosted URL. Optional — the ARIA brain falls back to
+    # browser-use research when Firecrawl is not configured.
+    FIRECRAWL_API_KEY: str = ""
+    FIRECRAWL_API_URL: str = ""
+
     # LLM providers
     GEMINI_API_KEY: str = ""
     GROQ_API_KEY: str = ""

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TrailBike Rentals – Ride the Mountain</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <a href="#home" class="logo" aria-label="TrailBike Rentals home">
+      <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="10" cy="26" r="7" fill="none" stroke="#2E5D3A" stroke-width="3"/>
+        <circle cx="30" cy="26" r="7" fill="none" stroke="#2E5D3A" stroke-width="3"/>
+        <path d="M10 26 L18 14 L26 14 L30 26" fill="none" stroke="#2E5D3A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M18 14 L22 8" fill="none" stroke="#E07A2B" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span class="logo-text">TrailBike<span class="logo-accent"> Rentals</span></span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="primaryNav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation">
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#bikes" class="nav-link">Bikes</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-overlay"></div>
+  <div class="container hero-content">
+    <h1 class="hero-title">Ride the Mountain.<br/>Feel the Trail.</h1>
+    <p class="hero-sub">Premium mountain bike rentals guided by locals who know every root, ridge and view.</p>
+    <a href="#bikes" class="btn btn-primary" id="browseBikesBtn">Browse Bikes</a>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <span></span>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="container">
+    <div class="features-grid" id="featuresGrid"></div>
+  </div>
+</section>
+
+<!-- BIKES -->
+<section class="bikes" id="bikes">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Our Fleet</span>
+      <h2>Bikes &amp; Pricing</h2>
+      <p>Pick the ride that matches your trail. All rentals include a helmet, lock, and trail map.</p>
+    </div>
+    <div class="bike-grid" id="bikeGrid"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container about-grid">
+    <div class="about-image">
+      <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of mountain bikers on a forest trail">
+        <defs>
+          <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#cfe5dc"/>
+            <stop offset="100%" stop-color="#f5f2ea"/>
+          </linearGradient>
+        </defs>
+        <rect width="600" height="420" fill="url(#sky)"/>
+        <!-- mountains -->
+        <polygon points="0,260 140,120 240,220 360,90 480,210 600,140 600,420 0,420" fill="#2E5D3A"/>
+        <polygon points="0,300 120,200 240,280 360,180 480,260 600,210 600,420 0,420" fill="#234a2c" opacity="0.85"/>
+        <!-- trees -->
+        <g fill="#1f3e26">
+          <polygon points="80,340 100,300 120,340"/>
+          <polygon points="160,360 180,310 200,360"/>
+          <polygon points="430,360 450,310 470,360"/>
+          <polygon points="510,340 530,300 550,340"/>
+        </g>
+        <!-- trail -->
+        <path d="M0,400 Q150,360 300,380 T600,360 L600,420 L0,420 Z" fill="#7a5a3a"/>
+        <!-- biker silhouette -->
+        <g transform="translate(280,300)">
+          <circle cx="0" cy="0" r="14" fill="#2A2A2A"/>
+          <rect x="-3" y="14" width="6" height="20" fill="#2A2A2A"/>
+          <rect x="-18" y="34" width="36" height="6" rx="3" fill="#2A2A2A"/>
+          <circle cx="-18" cy="44" r="10" fill="none" stroke="#2A2A2A" stroke-width="3"/>
+          <circle cx="18" cy="44" r="10" fill="none" stroke="#2A2A2A" stroke-width="3"/>
+          <line x1="-18" y1="44" x2="18" y2="44" stroke="#2A2A2A" stroke-width="2"/>
+        </g>
+      </svg>
+    </div>
+    <div class="about-text">
+      <span class="eyebrow">About Us</span>
+      <h2>Local Riders. Real Trails.</h2>
+      <p>Founded in 2014 by two friends who lived at the base of Cedar Ridge, TrailBike Rentals started with three bikes and a hand-painted map. Today, our shop is still family-run, still independent, and still obsessed with sending riders home tired, smiling, and a little dustier than they arrived.</p>
+      <p>Every bike in our fleet is tuned by certified mechanics before each rental. We fit you properly, share the trail conditions for the day, and point you toward the lines we love most.</p>
+      <ul class="about-points">
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L4 6 V12 C4 17 7.5 21 12 22 C16.5 21 20 17 20 12 V6 Z" fill="none" stroke="#2E5D3A" stroke-width="2" stroke-linejoin="round"/><path d="M9 12 L11 14 L15 10" fill="none" stroke="#E07A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div>
+            <h4>Safety First</h4>
+            <p>Helmets, lights, and a pre-ride safety briefing are included with every rental.</p>
+          </div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" fill="none" stroke="#2E5D3A" stroke-width="2"/><path d="M4 22 C4 16 8 14 12 14 C16 14 20 16 20 22" fill="none" stroke="#2E5D3A" stroke-width="2" stroke-linecap="round"/></svg>
+          <div>
+            <h4>Certified Guides</h4>
+            <p>Book a guided ride and let a local expert lead you to the best lines and viewpoints.</p>
+          </div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18 L8 8 L13 14 L17 9 L21 18 Z" fill="none" stroke="#2E5D3A" stroke-width="2" stroke-linejoin="round"/><circle cx="8" cy="8" r="1.5" fill="#E07A2B"/><circle cx="13" cy="14" r="1.5" fill="#E07A2B"/></svg>
+          <div>
+            <h4>Trail Knowledge</h4>
+            <p>Daily condition reports and maps drawn by riders, for riders.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Get In Touch</span>
+      <h2>Contact &amp; Location</h2>
+      <p>Drop by the shop, give us a ring, or reserve a bike and a date below.</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>The Shop</h3>
+        <p class="contact-line">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 C7 2 4 6 4 10 C4 16 12 22 12 22 C12 22 20 16 20 10 C20 6 17 2 12 2 Z" fill="none" stroke="#E07A2B" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="3" fill="none" stroke="#E07A2B" stroke-width="2"/></svg>
+          <span>412 Cedar Ridge Road<br/>Pine Valley, CO 81435</span>
+        </p>
+        <p class="contact-line">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4 H9 L11 9 L8 11 C9 14 10 15 13 16 L15 13 L20 15 V19 C20 20 19 21 18 21 C10 21 3 14 3 6 C3 5 4 4 5 4 Z" fill="none" stroke="#E07A2B" stroke-width="2" stroke-linejoin="round"/></svg>
+          <span>(970) 555-0142</span>
+        </p>
+        <p class="contact-line">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="#E07A2B" stroke-width="2"/><path d="M3 7 L12 13 L21 7" fill="none" stroke="#E07A2B" stroke-width="2" stroke-linejoin="round"/></svg>
+          <span>ride@trailbikerentals.com</span>
+        </p>
+
+        <h3 class="hours-head">Hours</h3>
+        <ul class="hours-list">
+          <li><span>Mon – Thu</span><span>8:00 AM – 6:00 PM</span></li>
+          <li><span>Fri – Sat</span><span>7:00 AM – 8:00 PM</span></li>
+          <li><span>Sunday</span><span>8:00 AM – 5:00 PM</span></li>
+        </ul>
+      </div>
+
+      <form class="contact-form" id="contactForm" novalidate>
+        <h3>Reserve a Bike</h3>
+        <div class="form-row">
+          <label class="form-field">
+            <span>Name</span>
+            <input type="text" name="name" id="fName" required autocomplete="name" />
+            <small class="error" data-for="fName"></small>
+          </label>
+          <label class="form-field">
+            <span>Email</span>
+            <input type="email" name="email" id="fEmail" required autocomplete="email" />
+            <small class="error" data-for="fEmail"></small>
+          </label>
+        </div>
+        <div class="form-row">
+          <label class="form-field">
+            <span>Ride Date</span>
+            <input type="date" name="date" id="fDate" required />
+            <small class="error" data-for="fDate"></small>
+          </label>
+          <label class="form-field">
+            <span>Bike</span>
+            <select name="bike" id="fBike" required>
+              <option value="">Choose a bike…</option>
+            </select>
+            <small class="error" data-for="fBike"></small>
+          </label>
+        </div>
+        <label class="form-field">
+          <span>Message</span>
+          <textarea name="message" id="fMessage" rows="4" placeholder="Tell us about your experience level, group size, or guided tour interest."></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary">Send Reservation</button>
+        <p class="form-success" id="formSuccess" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <a href="#home" class="logo logo-footer">
+        <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true">
+          <circle cx="10" cy="26" r="7" fill="none" stroke="#F5F2EA" stroke-width="3"/>
+          <circle cx="30" cy="26" r="7" fill="none" stroke="#F5F2EA" stroke-width="3"/>
+          <path d="M10 26 L18 14 L26 14 L30 26" fill="none" stroke="#F5F2EA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18 14 L22 8" fill="none" stroke="#E07A2B" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <span class="logo-text">TrailBike<span class="logo-accent"> Rentals</span></span>
+      </a>
+      <p class="footer-tag">Ride the mountain. Take the long way home.</p>
+    </div>
+
+    <div>
+      <h4>Explore</h4>
+      <ul class="footer-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#bikes">Bikes &amp; Pricing</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4>Visit</h4>
+      <p>412 Cedar Ridge Road<br/>Pine Valley, CO 81435</p>
+      <p>(970) 555-0142</p>
+    </div>
+
+    <div>
+      <h4>Follow</h4>
+      <ul class="footer-links social">
+        <li><a href="#" aria-label="Instagram">Instagram</a></li>
+        <li><a href="#" aria-label="Facebook">Facebook</a></li>
+        <li><a href="#" aria-label="Strava">Strava</a></li>
+        <li><a href="#" aria-label="YouTube">YouTube</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>&copy; <span id="year"></span> TrailBike Rentals. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

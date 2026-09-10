@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumen Roast: Your Coffee Companion</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- STICKY HEADER -->
+  <header class="header" id="main-header">
+    <div class="container header-container">
+      <a href="#home" class="logo-link" onclick="navigateTo('home')">
+        <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 2C11.5 2 8 6 8 11C8 16.5 12 21 16 27C20 21 24 16.5 24 11C24 6 20.5 2 16 2Z" fill="var(--color-warm-brown)"/>
+          <path d="M16 6C13.8 6 12 8.5 12 11.5C12 14.8 14.5 18 16 21.5C17.5 18 20 14.8 20 11.5C20 8.5 18.2 6 16 6Z" fill="var(--color-cream)"/>
+          <path d="M16 10V16M13 13H19" stroke="var(--color-dark-brown)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="logo-text">Lumen<span>Roast</span></span>
+      </a>
+
+      <nav class="nav-menu" id="nav-menu">
+        <a href="#home" class="nav-link active" data-page="home" onclick="navigateTo('home')">Home</a>
+        <a href="#featured" class="nav-link" data-page="home" onclick="navigateTo('home', 'featured')">Blends</a>
+        <a href="#brewing" class="nav-link" data-page="home" onclick="navigateTo('home', 'brewing')">Brewing Guide</a>
+        <a href="#about" class="nav-link" data-page="about" onclick="navigateTo('about')">Our Story</a>
+        <a href="#contact" class="nav-link" data-page="contact" onclick="navigateTo('contact')">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn btn-outline btn-sm" onclick="navigateTo('home', 'featured')">Shop Coffee</button>
+        <button class="mobile-menu-toggle" id="mobile-toggle" aria-label="Toggle menu">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE VIEWS CONTAINER -->
+  <main id="app-content">
+
+    <!-- HOME PAGE -->
+    <div id="page-home" class="page-view active">
+      
+      <!-- HERO SECTION -->
+      <section class="hero-section">
+        <div class="hero-bg-overlay"></div>
+        <div class="hero-graphic">
+          <svg viewBox="0 0 500 500" class="hero-svg-art" opacity="0.15">
+            <circle cx="250" cy="250" r="220" stroke="var(--color-cream)" stroke-width="3" fill="none" stroke-dasharray="8 8"/>
+            <circle cx="250" cy="250" r="170" stroke="var(--color-warm-brown)" stroke-width="2" fill="none"/>
+            <path d="M250 80 L250 420 M80 250 L420 250" stroke="var(--color-cream)" stroke-width="1.5"/>
+          </svg>
+        </div>
+
+        <div class="container hero-content">
+          <div class="hero-text-block scroll-reveal">
+            <div class="hero-badge">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+              Small Batch Specialty Roasters
+            </div>
+            <h1 class="hero-title">Illuminating Every Sip with Artisanal Passion</h1>
+            <p class="hero-subtitle">Meticulously sourced, sustainably farmed, and artfully roasted coffee beans delivered fresh to your door.</p>
+            <div class="hero-cta-group">
+              <button class="btn btn-primary btn-lg" onclick="navigateTo('home', 'featured')">Explore Blends</button>
+              <button class="btn btn-secondary btn-lg" onclick="navigateTo('home', 'brewing')">Brewing Guide</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURED BLENDS SECTION -->
+      <section class="section featured-section" id="featured">
+        <div class="container">
+          <div class="section-header scroll-reveal">
+            <span class="section-subtitle">Curated Selection</span>
+            <h2 class="section-title">Our Signature Coffee Blends</h2>
+            <p class="section-desc">From vibrant light roasts bursting with fruit notes to deep, rich dark roasts, discover your perfect daily ritual.</p>
+            
+            <div class="filter-bar">
+              <button class="filter-btn active" data-filter="all">All Blends</button>
+              <button class="filter-btn" data-filter="light">Light Roast</button>
+              <button class="filter-btn" data-filter="medium">Medium Roast</button>
+              <button class="filter-btn" data-filter="dark">Dark Roast</button>
+            </div>
+          </div>
+
+          <div class="blend-grid" id="blend-grid">
+            <!-- Cards rendered dynamically via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- STORY TEASER SECTION -->
+      <section class="section story-teaser-section">
+        <div class="container">
+          <div class="story-teaser-grid">
+            <div class="story-image-wrapper scroll-reveal">
+              <div class="story-image-placeholder">
+                <svg viewBox="0 0 200 200" class="story-svg-art">
+                  <rect width="200" height="200" fill="var(--color-dark-brown)" rx="16"/>
+                  <path d="M60 140 C 60 100, 140 100, 140 140 Z" fill="var(--color-warm-brown)"/>
+                  <path d="M80 80 Q 100 50, 80 30 Q 100 20, 90 10" stroke="var(--color-cream)" stroke-width="4" fill="none" stroke-linecap="round"/>
+                  <path d="M120 80 Q 140 50, 120 30 Q 140 20, 130 10" stroke="var(--color-cream)" stroke-width="4" fill="none" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="experience-badge">
+                <span class="number">12+</span>
+                <span class="label">Years of Craft</span>
+              </div>
+            </div>
+
+            <div class="story-text-container scroll-reveal">
+              <span class="section-subtitle">Rooted in Craft</span>
+              <h2 class="section-title">Born from a Search for the Perfect Roast</h2>
+              <p class="text-p">Lumen Roast began in 2012 in a small garage with a 1kg roaster and a simple belief: coffee should illuminate the senses, respect the farmer, and bring people together.</p>
+              <p class="text-p">We partner directly with sustainable micro-farms across Ethiopia, Colombia, and Guatemala to bring you uncompromised quality in every cup.</p>
+              
+              <div class="stats-row">
+                <div class="stat-item">
+                  <span class="stat-num">100%</span>
+                  <span class="stat-label">Direct Trade</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-num">24h</span>
+                  <span class="stat-label">Roast-to-Ship</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-num">0%</span>
+                  <span class="stat-label">Net Carbon Footprint</span>
+                </div>
+              </div>
+
+              <button class="btn btn-primary" onclick="navigateTo('about')">Read Our Full Story</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BREWING GUIDE SECTION -->
+      <section class="section brewing-section" id="brewing">
+        <div class="container">
+          <div class="section-header scroll-reveal">
+            <span class="section-subtitle">Master Your Cup</span>
+            <h2 class="section-title">Interactive Brewing Guide</h2>
+            <p class="section-desc">Coffee brewing is both art and science. Select your preferred brewing method below for precise step-by-step guidance and ratio calculation.</p>
+          </div>
+
+          <div class="brewing-wrapper scroll-reveal">
+            <!-- Method Switcher Tabs -->
+            <div class="brew-tabs">
+              <button class="brew-tab active" data-method="pourover">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><path d="M19 3H5L8 14V21H16V14L19 3Z"/><path d="M4 3H20"/></svg>
+                Pour Over (V60)
+              </button>
+              <button class="brew-tab" data-method="frenchpress">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M12 2V4M2 10H5M12 10V17"/></svg>
+                French Press
+              </button>
+              <button class="brew-tab" data-method="espresso">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><path d="M6 8H18V16C18 18.2 16.2 20 14 20H10C7.8 20 6 18.2 6 16V8Z"/><path d="M18 10H21C21.6 10 22 10.4 22 11V13C22 13.6 21.6 14 21 14H18"/><path d="M4 4H20"/></svg>
+                Espresso
+              </button>
+              <button class="brew-tab" data-method="aeropress">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><rect x="7" y="2" width="10" height="14"/><rect x="5" y="16" width="14" height="4" rx="1"/><line x1="12" y1="2" x2="12" y2="16"/></svg>
+                AeroPress
+              </button>
+            </div>
+
+            <!-- Dynamic Brew Details Box -->
+            <div class="brew-content-card">
+              <div class="brew-header">
+                <div>
+                  <h3 class="brew-method-title" id="brew-title">Pour Over (V60)</h3>
+                  <p class="brew-method-desc" id="brew-desc">Produces a clean, nuanced cup highlighting bright acidity and floral notes.</p>
+                </div>
+
+                <!-- Brew Calculator Widget -->
+                <div class="brew-calc-box">
+                  <div class="calc-header">Ratio Calculator</div>
+                  <div class="calc-controls">
+                    <label>Cups: 
+                      <input type="number" id="cups-input" min="1" max="8" value="2">
+                    </label>
+                  </div>
+                  <div class="calc-results">
+                    <div><strong>Coffee:</strong> <span id="calc-coffee">30</span>g</div>
+                    <div><strong>Water:</strong> <span id="calc-water">480</span>ml</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="brew-specs-grid">
+                <div class="spec-card">
+                  <span class="spec-label">Grind Size</span>
+                  <span class="spec-val" id="brew-grind">Medium-Fine</span>
+                </div>
+                <div class="spec-card">
+                  <span class="spec-label">Water Temp</span>
+                  <span class="spec-val" id="brew-temp">93°C / 200°F</span>
+                </div>
+                <div class="spec-card">
+                  <span class="spec-label">Brew Time</span>
+                  <span class="spec-val" id="brew-time">3:30 mins</span>
+                </div>
+                <div class="spec-card">
+                  <span class="spec-label">Coffee Ratio</span>
+                  <span class="spec-val" id="brew-ratio">1:16</span>
+                </div>
+              </div>
+
+              <!-- Steps List -->
+              <div class="brew-steps-container">
+                <h4>Step-by-Step Execution</h4>
+                <ol class="brew-steps-list" id="brew-steps">
+                  <!-- Steps injected via JS -->
+                </ol>
+              </div>
+
+              <!-- Interactive Brew Timer -->
+              <div class="brew-timer-widget">
+                <div class="timer-display" id="timer-display">00:00</div>
+                <div class="timer-controls">
+                  <button class="btn btn-primary btn-sm" id="start-timer-btn">Start Brew Timer</button>
+                  <button class="btn btn-outline btn-sm" id="reset-timer-btn">Reset</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- NEWSLETTER SECTION -->
+      <section class="section newsletter-section">
+        <div class="container">
+          <div class="newsletter-card scroll-reveal">
+            <div class="newsletter-content">
+              <span class="section-subtitle light">Stay Enlightened</span>
+              <h2>Join the Lumen Coffee Club</h2>
+              <p>Subscribe to receive freshly roasted brewing tips, exclusive early-access micro-lots, and 15% off your first order.</p>
+              
+              <form class="newsletter-form" id="newsletter-form" novalidate>
+                <div class="form-input-group">
+                  <input type="email" id="newsletter-email" class="form-control" placeholder="Enter your email address" required>
+                  <button type="submit" class="btn btn-dark">Subscribe</button>
+                </div>
+                <span class="form-error" id="newsletter-error">Please enter a valid email address.</span>
+              </form>
+              <p class="privacy-note">We respect your inbox. Unsubscribe anytime with 1-click.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ABOUT PAGE VIEW -->
+    <div id="page-about" class="page-view">
+      <section class="page-header-banner">
+        <div class="container">
+          <span class="section-subtitle">Our Journey</span>
+          <h1 class="page-header-title">Crafting Coffee with Purpose & Clarity</h1>
+          <p class="page-header-subtitle">We bridge the gap between conscientious bean farmers and coffee lovers seeking extraordinary flavor.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="about-grid">
+            <div class="about-text-block scroll-reveal">
+              <h2 class="section-title">The Roastery Philosophy</h2>
+              <p class="text-p">At Lumen Roast, coffee isn't just a caffeine delivery mechanism—it's a sensory journey that connects distant soil, dedicated hands, and mindful moments. Founded by roastmaster David Vance in 2012, our roastery was established on three core pillars:</p>
+              
+              <ul class="values-list">
+                <li>
+                  <div class="value-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  </div>
+                  <div>
+                    <strong>Direct Farm Relationships</strong>
+                    <p>We work directly with single-estate growers, paying 35% above Fair Trade minimums to ensure sustainable farming livelihoods.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="value-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  </div>
+                  <div>
+                    <strong>Precision Thermal Profiling</strong>
+                    <p>Every harvest batch is test-roasted to pinpoint its unique thermal sweet spot, highlighting sweet floral or rich cacao profiles.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="value-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  </div>
+                  <div>
+                    <strong>Zero Waste Packaging</strong>
+                    <p>All our coffee bags and mailing materials are 100% home-compostable, keeping our footprint light on the earth.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="about-visual-block scroll-reveal">
+              <div class="process-card">
+                <h3>Our Roasting Process</h3>
+                <div class="process-steps">
+                  <div class="p-step">
+                    <div class="p-num">01</div>
+                    <div>
+                      <h4>Green Bean Selection</h4>
+                      <p>Sourced from high-altitude volcanic soils (>1,800m).</p>
+                    </div>
+                  </div>
+                  <div class="p-step">
+                    <div class="p-num">02</div>
+                    <div>
+                      <h4>Custom Roasting Curves</h4>
+                      <p>Small-batch air roasting to guarantee zero bean scorch.</p>
+                    </div>
+                  </div>
+                  <div class="p-step">
+                    <div class="p-num">03</div>
+                    <div>
+                      <h4>Sensory Cupping</h4>
+                      <p>Every batch is taste-tested for balance, aroma, and body.</p>
+                    </div>
+                  </div>
+                  <div class="p-step">
+                    <div class="p-num">04</div>
+                    <div>
+                      <h4>Nitrogen-Flushed Packing</h4>
+                      <p>Sealed instantly to preserve delicate aromatic oils.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- CONTACT PAGE VIEW -->
+    <div id="page-contact" class="page-view">
+      <section class="page-header-banner">
+        <div class="container">
+          <span class="section-subtitle">Get in Touch</span>
+          <h1 class="page-header-title">We’d Love to Hear From You</h1>
+          <p class="page-header-subtitle">Have questions about our blends, wholesale opportunities, or brewing help? Drop us a line.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="contact-grid">
+            <!-- Contact Info Container -->
+            <div class="contact-info-block scroll-reveal">
+              <h2>Visit Our Roastery Cafe</h2>
+              <p>Drop by our flagship tasting room for fresh brews, whole bean purchases, and live roasting demonstrations.</p>
+
+              <div class="info-items">
+                <div class="info-item">
+                  <div class="info-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  </div>
+                  <div>
+                    <strong>Address</strong>
+                    <p>452 Artisan Way, Roast District<br>Portland, OR 97201</p>
+                  </div>
+                </div>
+
+                <div class="info-item">
+                  <div class="info-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </div>
+                  <div>
+                    <strong>Phone & Email</strong>
+                    <p>+1 (503) 555-0198<br>hello@lumenroast.com</p>
+                  </div>
+                </div>
+
+                <div class="info-item">
+                  <div class="info-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  </div>
+                  <div>
+                    <strong>Hours</strong>
+                    <p>Mon - Fri: 6:30 AM - 6:00 PM<br>Sat - Sun: 7:00 AM - 5:00 PM</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Stylized Map Graphic -->
+              <div class="map-graphic-box">
+                <div class="map-pin-pulse"></div>
+                <span>452 Artisan Way, Portland</span>
+              </div>
+            </div>
+
+            <!-- Contact Form Container -->
+            <div class="contact-form-block scroll-reveal">
+              <h2>Send Us a Message</h2>
+              <form id="contact-form" class="contact-form" novalidate>
+                <div class="form-group">
+                  <label for="contact-name">Full Name *</label>
+                  <input type="text" id="contact-name" class="form-control" placeholder="Jane Doe" required>
+                  <span class="form-error">Please enter your name.</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="contact-email">Email Address *</label>
+                  <input type="email" id="contact-email" class="form-control" placeholder="jane@example.com" required>
+                  <span class="form-error">Please enter a valid email address.</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="contact-subject">Topic</label>
+                  <select id="contact-subject" class="form-control">
+                    <option value="general">General Inquiry</option>
+                    <option value="wholesale">Wholesale & Business</option>
+                    <option value="orders">Online Order Support</option>
+                    <option value="events">Cupping & Workshops</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="contact-message">Message *</label>
+                  <textarea id="contact-message" rows="5" class="form-control" placeholder="How can we help you?" required></textarea>
+                  <span class="form-error">Please enter a message.</span>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <!-- MODAL FOR BLEND DETAILS -->
+  <div class="modal-overlay" id="blend-modal">
+    <div class="modal-card">
+      <button class="modal-close" id="modal-close">&times;</button>
+      <div id="modal-body">
+        <!-- Content filled dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="logo-link footer-logo">
+            <svg class="logo-icon" viewBox="0 0 32 32" fill="none">
+              <path d="M16 2C11.5 2 8 6 8 11C8 16.5 12 21 16 27C20 21 24 16.5 24 11C24 6 20.5 2 16 2Z" fill="var(--color-warm-brown)"/>
+              <path d="M16 6C13.8 6 12 8.5 12 11.5C12 14.8 14.5 18 16 21.5C17.5 18 20 14.8 20 11.5C20 8.5 18.2 6 16 6Z" fill="var(--color-cream)"/>
+            </svg>
+            <span class="logo-text">Lumen<span>Roast</span></span>
+          </div>
+          <p class="footer-tagline">Crafting exceptional small-batch coffees with warmth, integrity, and precision since 2012.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#home" onclick="navigateTo('home')">Home</a></li>
+            <li><a href="#featured" onclick="navigateTo('home', 'featured')">Featured Blends</a></li>
+            <li><a href="#brewing" onclick="navigateTo('home', 'brewing')">Brewing Guide</a></li>
+            <li><a href="#about" onclick="navigateTo('about')">Our Story</a></li>
+            <li><a href="#contact" onclick="navigateTo('contact')">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">Roastery Hours</h4>
+          <p class="footer-info">Monday – Friday: 6:30 AM – 6:00 PM</p>
+          <p class="footer-info">Saturday – Sunday: 7:00 AM – 5:00 PM</p>
+          <p class="footer-info">452 Artisan Way, Portland OR</p>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">Connect</h4>
+          <div class="social-links">
+            <a href="#" class="social-icon" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="Twitter">
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; <span id="year-span"></span> Lumen Roast Coffee Co. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mud & Co. | Artisanal Pottery Studio & Kiln</title>
+  <meta name="description" content="Mindful handcrafted ceramics, wheel-throwing workshops, and bespoke studio editions in the heart of the Pacific Northwest.">
+  
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header class="header-glass" id="header">
+    <div class="container header-container">
+      <a href="#hero" class="logo" aria-label="Mud & Co. Home">
+        <svg class="logo-mark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="18" cy="18" r="16" stroke="currentColor" stroke-width="2" stroke-dasharray="4 2"/>
+          <path d="M12 24C12 24 14 14 18 14C22 14 24 24 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M14 18C14 18 16 10 18 10C20 10 22 18 22 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="18" cy="8" r="2" fill="currentColor"/>
+        </svg>
+        <div class="logo-text">
+          <span class="brand-title">Mud &amp; Co.</span>
+          <span class="brand-sub">ARTISANAL STUDIO</span>
+        </div>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Main Navigation">
+        <a href="#philosophy" class="nav-link">Philosophy</a>
+        <a href="#workshops" class="nav-link">Workshops</a>
+        <a href="#collection" class="nav-link">Collection</a>
+        <a href="#visit" class="nav-link">Visit &amp; Schedule</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn btn-primary open-booking-trigger" data-workshop="Wheel Throwing Essentials" data-price="85">
+          <span>Book a Wheel</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="mobile-toggle" id="mobile-toggle-btn" aria-label="Toggle Navigation Menu" aria-expanded="false">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Overlay Menu -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu-inner">
+      <nav class="mobile-nav">
+        <a href="#philosophy" class="mobile-link">Philosophy</a>
+        <a href="#workshops" class="mobile-link">Workshops &amp; Classes</a>
+        <a href="#collection" class="mobile-link">Handcrafted Collection</a>
+        <a href="#visit" class="mobile-link">Visit &amp; Schedule</a>
+        <a href="#faq" class="mobile-link">Frequently Asked Questions</a>
+      </nav>
+      <div class="mobile-menu-footer">
+        <p class="studio-address-sm">482 Kiln Lane, Suite B • Portland, OR</p>
+        <button class="btn btn-primary btn-full open-booking-trigger" data-workshop="Wheel Throwing Essentials" data-price="85">
+          Book a Wheel Workshop
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- Hero & Brand Philosophy Section -->
+    <section class="hero-section" id="hero">
+      <div class="container hero-grid">
+        <div class="hero-content reveal">
+          <div class="badge-tag badge-terracotta">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+            EST. 2018 • PACIFIC NORTHWEST
+          </div>
+          <h1 class="hero-title">Slow Made. Mindful Clay. Crafted for Sacred Spaces.</h1>
+          <p class="hero-lead">
+            Welcome to Mud &amp; Co., a sanctuary for tactile creativity, earth-born homeware, and guided pottery practices. We turn raw Pacific clays into lasting everyday rituals.
+          </p>
+          <div class="hero-cta-group">
+            <a href="#workshops" class="btn btn-primary">
+              Explore Workshops
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="#collection" class="btn btn-outline">
+              View Collection
+            </a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-num">100%</span>
+              <span class="stat-label">Wild Stoneware Clays</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-num">Cone 10</span>
+              <span class="stat-label">High-Fire Reduction</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-num">Small-Batch</span>
+              <span class="stat-label">Studio Drops</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="hero-image-frame">
+            <svg class="hero-svg-art" viewBox="0 0 600 680" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Artisanal pottery visual graphic showing handcrafted ceramic vessels and wheel textures">
+              <defs>
+                <linearGradient id="terracottaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#D97A5E"/>
+                  <stop offset="100%" stop-color="#A85339"/>
+                </linearGradient>
+                <linearGradient id="sageGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#A2B29F"/>
+                  <stop offset="100%" stop-color="#6E7E6B"/>
+                </linearGradient>
+                <linearGradient id="sandGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#F4EFE6"/>
+                  <stop offset="100%" stop-color="#E5DBCB"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Organic Backdrop Shapes -->
+              <rect width="600" height="680" rx="24" fill="url(#sandGrad)"/>
+              <circle cx="480" cy="140" r="180" fill="#E8DEC8" opacity="0.6"/>
+              <path d="M-40 400C120 350 280 480 400 390C520 300 620 420 650 500V700H-40V400Z" fill="url(#terracottaGrad)" opacity="0.14"/>
+
+              <!-- Pottery Silhouette Visuals -->
+              <g class="pottery-illustration" transform="translate(110, 80)">
+                <!-- Main Fluted Vessel -->
+                <path d="M110 400 C100 280, 50 240, 70 170 C80 130, 120 110, 170 110 C220 110, 260 130, 270 170 C290 240, 240 280, 230 400 Z" fill="url(#terracottaGrad)"/>
+                <ellipse cx="170" cy="110" rx="50" ry="12" fill="#EADCD3" stroke="#A85339" stroke-width="3"/>
+                <!-- Glaze drip accent -->
+                <path d="M122 120 C140 180, 160 190, 170 180 C185 170, 200 210, 218 120 Z" fill="url(#sageGrad)" opacity="0.9"/>
+                <ellipse cx="170" cy="400" rx="60" ry="14" fill="#883E28"/>
+
+                <!-- Small Speckled Teapot / Pitcher beside -->
+                <path d="M260 410 C260 330, 290 310, 320 310 C350 310, 380 330, 380 410 Z" fill="url(#sageGrad)"/>
+                <ellipse cx="320" cy="310" rx="30" ry="8" fill="#D2DCD0"/>
+                <path d="M370 340 C410 330, 420 370, 375 390" stroke="#52624F" stroke-width="8" stroke-linecap="round" fill="none"/>
+
+                <!-- Decorative Clay Wheel Circles -->
+                <circle cx="170" cy="420" r="140" stroke="#C86D51" stroke-width="1.5" stroke-dasharray="6 6" fill="none" opacity="0.4"/>
+                <circle cx="170" cy="420" r="180" stroke="#8A9A86" stroke-width="1.5" fill="none" opacity="0.3"/>
+              </g>
+
+              <!-- Floating Tactile Badge -->
+              <g transform="translate(40, 490)">
+                <rect width="230" height="110" rx="16" fill="#FFFDF9" filter="drop-shadow(0px 12px 24px rgba(45,43,42,0.12))"/>
+                <circle cx="45" cy="55" r="22" fill="#F4EAE6"/>
+                <path d="M45 43v24M33 55h24" stroke="#C86D51" stroke-width="2.5" stroke-linecap="round"/>
+                <text x="80" y="46" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="14" fill="#2D2B2A">Hand-Thrown</text>
+                <text x="80" y="66" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" fill="#7A7571">Each piece is unique</text>
+                <text x="80" y="84" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="11" fill="#8A9A86">100% Organic Glazes</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Studio Philosophy Cards -->
+    <section class="philosophy-section" id="philosophy">
+      <div class="container">
+        <div class="section-header text-center reveal">
+          <span class="section-subtitle">OUR ETHOS</span>
+          <h2 class="section-title">Rooted in Earth, Crafted for Presence</h2>
+          <p class="section-desc">We believe in slowing down, feeling the grit of clay between fingers, and building functional art that grounds your everyday home rituals.</p>
+        </div>
+
+        <div class="philosophy-grid">
+          <div class="card card-philosophy reveal">
+            <div class="card-icon-wrap icon-terracotta">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v8M8 12h8"/></svg>
+            </div>
+            <h3>Hand-Thrown Integrity</h3>
+            <p>Every vessel in our gallery and workshop is shaped on the potter's wheel using locally sourced stoneware and sustainable studio reclaiming practices.</p>
+          </div>
+
+          <div class="card card-philosophy reveal">
+            <div class="card-icon-wrap icon-sage">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a10 10 0 0 0-10 10c0 5.52 4.48 10 10 10s10-4.48 10-10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <h3>Botanical &amp; Mineral Glazes</h3>
+            <p>Our glazes are custom formulated in-house using wood ash, cobalt minerals, and wild clay washes to create rich, unpredictable organic surfaces.</p>
+          </div>
+
+          <div class="card card-philosophy reveal">
+            <div class="card-icon-wrap icon-taupe">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3>Mindful Community</h3>
+            <p>From beginner introductory wheels to advanced glaze chemistry, our studio space is designed for calm focus, creative exchange, and community connection.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Workshops & Classes Section -->
+    <section class="workshops-section" id="workshops">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <span class="section-subtitle">LEARN THE CRAFT</span>
+            <h2 class="section-title">Hands-On Studio Workshops</h2>
+          </div>
+          <p class="section-desc">Guided sessions tailored for all skill levels. All materials, tool access, glaze finishing, and two kiln firings are fully included.</p>
+        </div>
+
+        <div class="workshops-grid">
+          <!-- Workshop Card 1 -->
+          <article class="card workshop-card reveal">
+            <div class="workshop-header">
+              <span class="badge-tag badge-sage">Beginner Friendly</span>
+              <span class="workshop-price">$85 <small>/ seat</small></span>
+            </div>
+            <h3 class="workshop-title">Wheel Throwing Essentials</h3>
+            <p class="workshop-desc">Learn centering, opening, and pulling walls to create your first set of ceramic tumblers and bowls.</p>
+            
+            <div class="workshop-meta">
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                <span>2.5 Hours</span>
+              </div>
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Max 6 Potters</span>
+              </div>
+            </div>
+
+            <ul class="workshop-inclusions">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A9A86" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Includes 2 finished pieces
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A9A86" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Glaze selection &amp; firing included
+              </li>
+            </ul>
+
+            <button class="btn btn-primary btn-full open-booking-trigger" data-workshop="Wheel Throwing Essentials" data-price="85">
+              Reserve Your Seat
+            </button>
+          </article>
+
+          <!-- Workshop Card 2 -->
+          <article class="card workshop-card reveal">
+            <div class="workshop-header">
+              <span class="badge-tag badge-sand">All Skill Levels</span>
+              <span class="workshop-price">$95 <small>/ seat</small></span>
+            </div>
+            <h3 class="workshop-title">Handbuilding &amp; Slab Sculpting</h3>
+            <p class="workshop-desc">Explore pinch pot techniques, coil construction, and slab work to craft textured vases and teaware.</p>
+            
+            <div class="workshop-meta">
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                <span>3.0 Hours</span>
+              </div>
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Max 8 Potters</span>
+              </div>
+            </div>
+
+            <ul class="workshop-inclusions">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A9A86" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Includes 3 finished pieces
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A9A86" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Texturing tools &amp; wild clay slip
+              </li>
+            </ul>
+
+            <button class="btn btn-primary btn-full open-booking-trigger" data-workshop="Handbuilding & Slab Sculpting" data-price="95">
+              Reserve Your Seat
+            </button>
+          </article>
+
+          <!-- Workshop Card 3 -->
+          <article class="card workshop-card reveal">
+            <div class="workshop-header">
+              <span class="badge-tag badge-terracotta">Intermediate</span>
+              <span class="workshop-price">$135 <small>/ seat</small></span>
+            </div>
+            <h3 class="workshop-title">Surface Design &amp; Botanical Glazes</h3>
+            <p class="workshop-desc">Master sgraffito, inlay work, and custom wood-ash glazes for striking tactile visual patterns.</p>
+            
+            <div class="workshop-meta">
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                <span>3.5 Hours</span>
+              </div>
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Max 6 Potters</span>
+              </div>
+            </div>
+
+            <ul class="workshop-inclusions">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A9A86" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Bring bisqueware or use studio plates
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A9A86" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Custom glaze recipe booklet
+              </li>
+            </ul>
+
+            <button class="btn btn-primary btn-full open-booking-trigger" data-workshop="Surface Design & Botanical Glazes" data-price="135">
+              Reserve Your Seat
+            </button>
+          </article>
+
+          <!-- Workshop Card 4 -->
+          <article class="card workshop-card reveal">
+            <div class="workshop-header">
+              <span class="badge-tag badge-dark">Masterclass</span>
+              <span class="workshop-price">$220 <small>/ 2-day</small></span>
+            </div>
+            <h3 class="workshop-title">Advanced Kiln &amp; Reduction Firing</h3>
+            <p class="workshop-desc">An intensive 2-day immersion into atmosphere control, Cone 10 reduction, and gas kiln stacking.</p>
+            
+            <div class="workshop-meta">
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                <span>2 Full Days</span>
+              </div>
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Max 4 Potters</span>
+              </div>
+            </div>
+
+            <ul class="workshop-inclusions">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A9A86" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Dedicated kiln shelf space
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A9A86" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Artisanal lunch &amp; studio apron
+              </li>
+            </ul>
+
+            <button class="btn btn-primary btn-full open-booking-trigger" data-workshop="Advanced Kiln & Reduction Firing" data-price="220">
+              Reserve Your Seat
+            </button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Handcrafted Collection Section -->
+    <section class="collection-section" id="collection">
+      <div class="container">
+        <div class="section-header text-center reveal">
+          <span class="section-subtitle">STUDIO CATALOG</span>
+          <h2 class="section-title">The Handcrafted Collection</h2>
+          <p class="section-desc">Each piece is individually turned on the wheel, signed by our resident ceramicists, and fired in small batches.</p>
+        </div>
+
+        <!-- Filter Pill Bar -->
+        <div class="filter-pill-bar reveal">
+          <button class="pill-btn active" data-filter="all">All Editions</button>
+          <button class="pill-btn" data-filter="vessels">Vessels &amp; Vases</button>
+          <button class="pill-btn" data-filter="dinnerware">Dinnerware</button>
+          <button class="pill-btn" data-filter="sculptural">Sculptural Objects</button>
+        </div>
+
+        <!-- Gallery Catalog Grid -->
+        <div class="gallery-grid" id="gallery-grid">
+          <!-- Item 1 -->
+          <div class="gallery-card reveal" data-category="vessels" data-item-id="1">
+            <div class="gallery-image-wrap">
+              <svg class="ceramic-svg" viewBox="0 0 300 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="300" height="320" fill="#F4EFE6"/>
+                <circle cx="150" cy="160" r="100" fill="#EADCCB" opacity="0.6"/>
+                <path d="M110 240 C100 160, 80 130, 110 90 C130 65, 170 65, 190 90 C220 130, 200 160, 190 240 Z" fill="#7A8B77"/>
+                <ellipse cx="150" cy="90" rx="40" ry="10" fill="#E1E7DF" stroke="#5C6C59" stroke-width="2"/>
+                <path d="M120 98 C135 140, 150 150, 160 140 C175 130, 185 160, 188 98 Z" fill="#99A896"/>
+              </svg>
+              <button class="quick-view-btn" data-item-id="1">Quick View</button>
+              <span class="status-badge status-available">In Stock</span>
+            </div>
+            <div class="gallery-info">
+              <span class="ceramic-category">Vessels</span>
+              <h3 class="ceramic-title">Iron Sage Stoneware Pitcher</h3>
+              <p class="ceramic-meta">Wild Oregon Stoneware • Wood Ash Glaze</p>
+              <div class="gallery-price-row">
+                <span class="ceramic-price">$120</span>
+                <button class="btn-text-icon open-quick-modal" data-item-id="1">
+                  Details
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="gallery-card reveal" data-category="vessels" data-item-id="2">
+            <div class="gallery-image-wrap">
+              <svg class="ceramic-svg" viewBox="0 0 300 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="300" height="320" fill="#F4EFE6"/>
+                <circle cx="150" cy="160" r="110" fill="#E8DEC8" opacity="0.6"/>
+                <path d="M90 230 C85 170, 110 140, 120 120 C130 100, 170 100, 180 120 C190 140, 215 170, 210 230 Z" fill="#C86D51"/>
+                <ellipse cx="150" cy="120" rx="30" ry="8" fill="#F4EAE6" stroke="#9A482F" stroke-width="2"/>
+                <path d="M190 150 C230 140, 235 200, 195 200" stroke="#A85339" stroke-width="6" stroke-linecap="round" fill="none"/>
+              </svg>
+              <button class="quick-view-btn" data-item-id="2">Quick View</button>
+              <span class="status-badge status-available">In Stock</span>
+            </div>
+            <div class="gallery-info">
+              <span class="ceramic-category">Vessels</span>
+              <h3 class="ceramic-title">Ribbed Terracotta Teapot</h3>
+              <p class="ceramic-meta">Red Clay Stoneware • Bare &amp; Cream Dip</p>
+              <div class="gallery-price-row">
+                <span class="ceramic-price">$165</span>
+                <button class="btn-text-icon open-quick-modal" data-item-id="2">
+                  Details
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="gallery-card reveal" data-category="dinnerware" data-item-id="3">
+            <div class="gallery-image-wrap">
+              <svg class="ceramic-svg" viewBox="0 0 300 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="300" height="320" fill="#F4EFE6"/>
+                <ellipse cx="150" cy="180" rx="110" ry="40" fill="#2D2B2A"/>
+                <ellipse cx="150" cy="176" rx="95" ry="32" fill="#3D3A38"/>
+                <ellipse cx="150" cy="172" rx="75" ry="24" fill="#4D4946"/>
+                <circle cx="150" cy="172" r="8" fill="#8A9A86" opacity="0.6"/>
+              </svg>
+              <button class="quick-view-btn" data-item-id="3">Quick View</button>
+              <span class="status-badge status-preorder">Pre-Order</span>
+            </div>
+            <div class="gallery-info">
+              <span class="ceramic-category">Dinnerware</span>
+              <h3 class="ceramic-title">Earth &amp; Ash Dinner Plate Set</h3>
+              <p class="ceramic-meta">Buff Stoneware • Matte Charcoal Wash</p>
+              <div class="gallery-price-row">
+                <span class="ceramic-price">$180</span>
+                <button class="btn-text-icon open-quick-modal" data-item-id="3">
+                  Details
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="gallery-card reveal" data-category="vessels" data-item-id="4">
+            <div class="gallery-image-wrap">
+              <svg class="ceramic-svg" viewBox="0 0 300 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="300" height="320" fill="#F4EFE6"/>
+                <path d="M100 220 C90 140, 110 110, 150 110 C190 110, 210 140, 200 220 Z" fill="#D8C2AA"/>
+                <ellipse cx="150" cy="110" rx="50" ry="12" fill="#E8DDD0" stroke="#B8A088" stroke-width="2"/>
+                <path d="M100 220 C130 235, 170 235, 200 220 C180 225, 120 225, 100 220 Z" fill="#8B7B68"/>
+              </svg>
+              <button class="quick-view-btn" data-item-id="4">Quick View</button>
+              <span class="status-badge status-available">In Stock</span>
+            </div>
+            <div class="gallery-info">
+              <span class="ceramic-category">Vessels</span>
+              <h3 class="ceramic-title">Tactile Matcha Bowl (Chawan)</h3>
+              <p class="ceramic-meta">Coarse Grog Stoneware • Shino Glaze</p>
+              <div class="gallery-price-row">
+                <span class="ceramic-price">$78</span>
+                <button class="btn-text-icon open-quick-modal" data-item-id="4">
+                  Details
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 5 -->
+          <div class="gallery-card reveal" data-category="sculptural" data-item-id="5">
+            <div class="gallery-image-wrap">
+              <svg class="ceramic-svg" viewBox="0 0 300 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="300" height="320" fill="#F4EFE6"/>
+                <path d="M150 50 C190 120, 210 180, 180 250 C150 280, 110 240, 120 180 C130 120, 110 80, 150 50 Z" fill="#3D3A38"/>
+                <circle cx="150" cy="140" r="18" fill="#C86D51"/>
+              </svg>
+              <button class="quick-view-btn" data-item-id="5">Quick View</button>
+              <span class="status-badge status-soldout">Sold Out</span>
+            </div>
+            <div class="gallery-info">
+              <span class="ceramic-category">Sculptural</span>
+              <h3 class="ceramic-title">Curvaceous Solitude Vase</h3>
+              <p class="ceramic-meta">Dark Basalt Clay • Ochre Wash Accent</p>
+              <div class="gallery-price-row">
+                <span class="ceramic-price">$240</span>
+                <button class="btn-text-icon open-quick-modal" data-item-id="5">
+                  Details
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 6 -->
+          <div class="gallery-card reveal" data-category="dinnerware" data-item-id="6">
+            <div class="gallery-image-wrap">
+              <svg class="ceramic-svg" viewBox="0 0 300 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="300" height="320" fill="#F4EFE6"/>
+                <ellipse cx="150" cy="170" rx="100" ry="50" fill="#E8DEC8"/>
+                <ellipse cx="150" cy="165" rx="85" ry="40" fill="#F4EFE6"/>
+                <path d="M80 150 C110 180, 190 180, 220 150" stroke="#C86D51" stroke-width="2" stroke-dasharray="4 4"/>
+              </svg>
+              <button class="quick-view-btn" data-item-id="6">Quick View</button>
+              <span class="status-badge status-available">In Stock</span>
+            </div>
+            <div class="gallery-info">
+              <span class="ceramic-category">Dinnerware</span>
+              <h3 class="ceramic-title">Fluted Serving &amp; Salad Bowl</h3>
+              <p class="ceramic-meta">Speckled Buff Clay • Warm Oatmeal Dip</p>
+              <div class="gallery-price-row">
+                <span class="ceramic-price">$110</span>
+                <button class="btn-text-icon open-quick-modal" data-item-id="6">

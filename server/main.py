@@ -1,4 +1,5 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 import traceback
 import asyncio
 import logging
@@ -15,14 +16,37 @@ from services.llm_service import LLMService
 from services.sort_source_service import SortSourceService
 from services.search_service import SearchService
 from services.commerce_agent_service import CommerceAgentService, BROWSER_USE_AVAILABLE
+from services.browser_agent_service import BrowserAgentService
+from builder.router import router as builder_router
+from builder.router import socket_router as builder_socket_router
 
 
 app = FastAPI()
+
+# CORS: the Flutter/Electron client is served from a browser origin
+# (http://127.0.0.1:57127) and calls the backend over HTTP (the Builder
+# feature, /api/... REST endpoints). Without CORS headers the browser
+# renderer blocks those fetches with "Failed to fetch". The backend only
+# binds 127.0.0.1, so allowing all origins here is local-only and safe
+# (no remote site can reach it).
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_credentials=False,
+)
+
+# Waflo Builder (isolated project generation) — additive, no impact on the
+# existing chat / commerce / browse handlers.
+app.include_router(builder_router)
+app.include_router(builder_socket_router)
 
 search_service = SearchService()
 sort_source_service = SortSourceService()
 llm_service = LLMService()
 commerce_agent_service = CommerceAgentService()
+browser_agent_service = BrowserAgentService()
 
 
 # Chat WebSocket
@@ -60,6 +84,11 @@ async def websocket_chat_endpoint(websocket: WebSocket):
                 asyncio.create_task(handle_commerce_request(websocket, data))
                 continue
 
+            # Agent Hub browser-research requests (ARIA) using the vendored browser-use
+            if request_type == "browse":
+                asyncio.create_task(handle_browse_request(websocket, data))
+                continue
+
             # Original chat functionality
             if not query and not file_base64:
 
@@ -70,8 +99,29 @@ async def websocket_chat_endpoint(websocket: WebSocket):
 
                 continue
 
-            # Search web (only if query exists)
-            search_results = search_service.web_search(query) if query else []
+            # Writing agent (Sunny): pure LLM drafting, NO web search. The model
+            # streams a finished piece straight back through `content`/`done`.
+            if request_type == "writing":
+                await websocket.send_json({
+                    "type": "content",
+                    "data": "\n"
+                })
+                for chunk in llm_service.generate_response(query, []):
+                    if chunk:
+                        await websocket.send_json({
+                            "type": "content",
+                            "data": chunk
+                        })
+                await websocket.send_json({"type": "done"})
+                continue
+
+            # Search web (only if query exists).
+            # NOTE: web_search does slow network full-text fetches; run it off
+            # the event loop so WebSocket pings are still answered.
+            if query:
+                search_results = await asyncio.to_thread(search_service.web_search, query)
+            else:
+                search_results = []
 
             print("6. Search completed")
 
@@ -317,6 +367,93 @@ async def handle_commerce_request(websocket: WebSocket, data: dict):
         await websocket.send_json({
             "type": "error",
             "data": f"Commerce error: {str(e)}"
+        })
+
+
+async def handle_browse_request(websocket: WebSocket, data: dict):
+    """Handle Agent Hub web-research (ARIA) requests using the vendored browser-use.
+
+    Mirrors the commerce handler: the task-id is generated HERE and announced
+    immediately (``browse_started``) so the client can cancel during the long
+    browser run, then the actual browser execution happens in a tracked
+    background asyncio.Task.
+    """
+    try:
+        query = data.get("query")
+        action = data.get("action", "start")  # 'start', 'cancel'
+        task_id = data.get("task_id")
+
+        print(f"Browse request - Action: {action}, Query: {query}, Task ID: {task_id}")
+
+        async def send_event(event_data: dict):
+            try:
+                await websocket.send_json(event_data)
+            except Exception as e:
+                print(f"[ARIA WS] failed to send event to client {task_id}: {e}")
+
+        if action == "cancel" and task_id:
+            success = await browser_agent_service.cancel_task(task_id, send_event)
+            await websocket.send_json({
+                "type": "browse_cancelled",
+                "task_id": task_id,
+                "success": success,
+            })
+            return
+
+        if not (action == "start" and query):
+            await websocket.send_json({
+                "type": "error",
+                "data": "Invalid browse request (need action:'start' and a query)"
+            })
+            return
+
+        print(f"[ARIA WS] browse start accepted: query={query!r} -> spawning background task")
+
+        if not browser_agent_service.is_ready:
+            await send_event({
+                "type": "error", "task_id": "error",
+                "message": "No LLM provider configured for the browser agent (set GEMINI_API_KEY or GROQ_API_KEY)",
+                "error_type": "ConfigurationError"
+            })
+            return
+
+        task_id = str(uuid4())
+        browser_agent_service.active_tasks[task_id] = True
+        browser_agent_service.background_tasks[task_id] = None
+
+        await websocket.send_json({
+            "type": "browse_started",
+            "task_id": task_id
+        })
+
+        def _background_done(bg_task):
+            try:
+                bg_task.result()
+            except asyncio.CancelledError:
+                print(f"[ARIA WS] browse task {task_id} cancelled")
+            except Exception as e:
+                print(f"[ARIA WS] browse task {task_id} raised: {e}")
+                traceback.print_exc()
+                asyncio.create_task(send_event({
+                    "type": "error", "task_id": task_id,
+                    "message": f"Browser agent error: {str(e)}", "error_type": type(e).__name__
+                }))
+            finally:
+                browser_agent_service.active_tasks[task_id] = False
+                browser_agent_service.background_tasks.pop(task_id, None)
+
+        bg = asyncio.create_task(
+            browser_agent_service.start_browser_task(query, send_event, task_id=task_id)
+        )
+        browser_agent_service.background_tasks[task_id] = bg
+        bg.add_done_callback(_background_done)
+
+    except Exception as e:
+        print(f"Browse request error: {e}")
+        traceback.print_exc()
+        await websocket.send_json({
+            "type": "error",
+            "data": f"Browse error: {str(e)}"
         })
 
 

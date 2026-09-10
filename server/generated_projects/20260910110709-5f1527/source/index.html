@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paws & Purr Cat Cafe | Artisanal Coffee & Feline Companionship</title>
+  <meta name="description" content="Relax with adoptable rescue cats, enjoy single-origin coffee & organic matcha, and savor scratch-made pastries in our cozy lounge sanctuary. Book your session today.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..800&family=Plus+Jakarta+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Sticky Glassmorphism Header -->
+  <header class="header" id="top">
+    <div class="container header-container">
+      <a href="#top" class="logo-link" aria-label="Paws and Purr Cat Cafe Home">
+        <svg class="logo-icon" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 10c0-2.2 1.8-4 4-4s4 1.8 4 4v2H12v-2z"/>
+          <path d="M8 14c-2.2 0-4 1.8-4 4v4c0 4.4 3.6 8 8 8h8c4.4 0 8-3.6 8-8v-4c0-2.2-1.8-4-4-4"/>
+          <circle cx="11" cy="19" r="1.5" fill="currentColor"/>
+          <circle cx="21" cy="19" r="1.5" fill="currentColor"/>
+          <path d="M16 21v2"/>
+          <path d="M14 23c1 1 3 1 4 0"/>
+          <path d="M6 8l3 3M26 8l-3 3"/>
+        </svg>
+        <span class="logo-text">Paws & Purr <span class="logo-sub">Cat Cafe</span></span>
+      </a>
+
+      <nav class="nav-desktop" aria-label="Main Navigation">
+        <a href="#experience" class="nav-link">Experience</a>
+        <a href="#felines" class="nav-link">Meet the Felines</a>
+        <a href="#menu" class="nav-link">Cafe & Bakery</a>
+        <a href="#visit" class="nav-link">Visit & Booking</a>
+        <a href="#rules" class="nav-link">House Rules</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+      </nav>
+
+      <div class="header-actions">
+        <button id="purr-audio-btn" class="btn-purr" type="button" aria-label="Toggle soothing cat purr sound">
+          <svg class="btn-icon sound-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          </svg>
+          <span class="purr-text">Play Purr Sound</span>
+        </button>
+
+        <a href="#visit" class="btn btn-primary btn-header">Book a Session</a>
+
+        <button class="hamburger-btn" id="hamburger-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+    <div class="drawer-backdrop" id="drawer-backdrop"></div>
+    <div class="drawer-content">
+      <div class="drawer-header">
+        <span class="drawer-title">Paws & Purr</span>
+        <button class="drawer-close" id="drawer-close" aria-label="Close Mobile Menu">&times;</button>
+      </div>
+      <nav class="mobile-nav">
+        <a href="#experience" class="mobile-nav-link">Experience</a>
+        <a href="#felines" class="mobile-nav-link">Meet the Felines</a>
+        <a href="#menu" class="mobile-nav-link">Cafe & Bakery</a>
+        <a href="#visit" class="mobile-nav-link">Visit & Booking</a>
+        <a href="#rules" class="mobile-nav-link">House Rules</a>
+        <a href="#faq" class="mobile-nav-link">FAQ</a>
+      </nav>
+      <div class="drawer-footer">
+        <a href="#visit" class="btn btn-primary btn-full mobile-drawer-cta">Book a Lounge Session</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="experience">
+      <div class="container hero-split">
+        <div class="hero-left">
+          <div class="status-pill" aria-live="polite">
+            <span class="pulse-dot"></span>
+            <span class="status-text">Cats Are Awake & Playing</span>
+          </div>
+
+          <h1 class="hero-title">Whiskers, Warm Brews & Cozy Nooks.</h1>
+          <p class="hero-subtitle">
+            Unwind in our artisanal cat lounge surrounded by affectionate rescue felines. Savor single-origin espresso, matcha lattes, and scratch-made pastries in a peaceful sanctuary.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#visit" class="btn btn-primary btn-lg">Book Your Lounge Session</a>
+            <a href="#felines" class="btn btn-secondary btn-lg">
+              <span>Meet Our Felines</span>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <div class="hero-trust-badges">
+            <div class="trust-item">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <span>100% Adoptable Rescues</span>
+            </div>
+            <div class="trust-divider"></div>
+            <div class="trust-item">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+              <span>Organic Coffee & Tea</span>
+            </div>
+            <div class="trust-divider"></div>
+            <div class="trust-item">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Tranquil Lounge Space</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="featured-card-stack">
+            <div class="stack-bg-card"></div>
+            <div class="card cat-spotlight-card">
+              <div class="spotlight-tag">Featured Cat of the Day</div>
+              <div class="spotlight-image-wrapper">
+                <svg class="cat-illustration" viewBox="0 0 240 200" fill="none">
+                  <rect width="240" height="200" rx="16" fill="url(#mochi-grad)"/>
+                  <circle cx="120" cy="110" r="48" fill="#F4A261"/>
+                  <path d="M80 160C80 125 100 105 120 105C140 105 160 125 160 160V170H80V160Z" fill="#E76F51"/>
+                  <!-- Ears -->
+                  <polygon points="85,80 70,35 105,65" fill="#E76F51"/>
+                  <polygon points="88,77 76,43 103,64" fill="#F4A261"/>
+                  <polygon points="155,80 170,35 135,65" fill="#E76F51"/>
+                  <polygon points="152,77 164,43 137,64" fill="#F4A261"/>
+                  <!-- Eyes -->
+                  <ellipse cx="102" cy="100" rx="7" ry="10" fill="#829B78"/>
+                  <ellipse cx="138" cy="100" rx="7" ry="10" fill="#829B78"/>
+                  <circle cx="102" cy="100" r="3.5" fill="#2C221E"/>
+                  <circle cx="138" cy="100" r="3.5" fill="#2C221E"/>
+                  <!-- Nose & Mouth -->
+                  <polygon points="120,112 114,118 126,118" fill="#E8A598"/>
+                  <path d="M114 121Q120 126 126 121" stroke="#2C221E" stroke-width="2" stroke-linecap="round"/>
+                  <!-- Whiskers -->
+                  <path d="M75 108L96 111M73 117L95 117M76 125L96 121" stroke="#FAF6F0" stroke-width="2"/>
+                  <path d="M165 108L144 111M167 117L145 117M164 125L144 121" stroke="#FAF6F0" stroke-width="2"/>
+                  <defs>
+                    <linearGradient id="mochi-grad" x1="0" y1="0" x2="240" y2="200" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#FDF3EB"/>
+                      <stop offset="1" stop-color="#F5E4D5"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <span class="badge badge-adoptable">Adoptable</span>
+              </div>
+              <div class="spotlight-info">
+                <div class="spotlight-header">
+                  <h2 class="spotlight-name">Mochi</h2>
+                  <span class="spotlight-breed">2 Yrs &bull; Calico Short Hair</span>
+                </div>
+                <p class="spotlight-bio">"Professional lap warmer and master biscuit maker. I love warm afternoon sunbeams and organic catnip tea."</p>
+                <div class="purr-meter-container">
+                  <div class="purr-meter-label">
+                    <span>Purr Frequency</span>
+                    <span class="purr-value">98% Ultra Cozy</span>
+                  </div>
+                  <div class="purr-meter-bar">
+                    <div class="purr-meter-fill" style="width: 98%;"></div>
+                  </div>
+                </div>
+                <button class="btn btn-outline btn-full open-cat-modal-btn" data-cat-id="mochi">View Personality Profile</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHILOSOPHY & HIGHLIGHTS -->
+    <section class="philosophy-section reveal">
+      <div class="container">
+        <div class="section-title-wrap text-center">
+          <span class="section-tag">Our Sanctuary Philosophy</span>
+          <h2 class="section-title">A Cozy Haven Designed for Cats & Humans Alike</h2>
+          <p class="section-subtitle">We partner with local rescues to provide a tranquil, home-like environment where cats thrive and human guests recharge.</p>
+        </div>
+
+        <div class="grid grid-3 philosophy-grid">
+          <div class="card feature-card">
+            <div class="feature-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                <line x1="6" y1="1" x2="6" y2="4"/>
+                <line x1="10" y1="1" x2="10" y2="4"/>
+                <line x1="14" y1="1" x2="14" y2="4"/>
+              </svg>
+            </div>
+            <h3>Artisanal Brews & Bakes</h3>
+            <p>Direct-trade coffee beans roasted locally and scratch pastries baked daily in a separate, health-compliant kitchen space.</p>
+          </div>
+
+          <div class="card feature-card">
+            <div class="feature-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </div>
+            <h3>Rescue & Rehome Mission</h3>
+            <p>Every adoptable feline in our lounge gets a second chance at finding a loving home through a calm, interactive environment.</p>
+          </div>
+
+          <div class="card feature-card">
+            <div class="feature-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+            </div>
+            <h3>Cozy Work & Relax Nooks</h3>
+            <p>High-speed Wi-Fi, cushioned window seats, ergonomic lounge tables, and endless lap companions for remote workers and readers.</p>
+          </div>
+        </div>
+
+        <div class="impact-counter-strip">
+          <div class="impact-stat">
+            <span class="stat-num" data-target="482">0</span>
+            <span class="stat-lbl">Forever Homes Found</span>
+          </div>
+          <div class="stat-sep"></div>
+          <div class="impact-stat">
+            <span class="stat-num" data-target="100">0%</span>
+            <span class="stat-lbl">Ethically Sourced Coffee</span>
+          </div>
+          <div class="stat-sep"></div>
+          <div class="impact-stat">
+            <span class="stat-num" data-target="12">0</span>
+            <span class="stat-lbl">Resident Feline Friends</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEET THE FELINES SECTION -->
+    <section class="felines-section reveal" id="felines">
+      <div class="container">
+        <div class="section-title-wrap text-center">
+          <span class="section-tag">Our Feline Family</span>
+          <h2 class="section-title">Meet the Lounge Cats</h2>
+          <p class="section-subtitle">Filter by adoption status or click any profile card to view their personality breakdown, purr level, and backstory.</p>
+        </div>
+
+        <!-- Dynamic Filter Chips -->
+        <div class="filter-bar" role="tablist" aria-label="Cat Category Filters">
+          <button class="filter-chip active" data-filter="all" role="tab" aria-selected="true">All Cats (6)</button>
+          <button class="filter-chip" data-filter="adoptable" role="tab" aria-selected="false">Adoptable (4)</button>
+          <button class="filter-chip" data-filter="resident" role="tab" aria-selected="false">Permanent Residents (2)</button>
+          <button class="filter-chip" data-filter="senior" role="tab" aria-selected="false">Seniors 7+ (2)</button>
+        </div>
+
+        <!-- 3-Column Cat Grid -->
+        <div class="grid grid-3 cat-gallery-grid" id="cat-gallery">
+          <!-- Dynamically Populated or Pre-Rendered Cat Cards -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CAFE & BAKERY MENU SECTION -->
+    <section class="menu-section reveal" id="menu">
+      <div class="container">
+        <div class="section-title-wrap text-center">
+          <span class="section-tag">Cafe & Kitchen</span>
+          <h2 class="section-title">Artisanal Coffee & Bakery</h2>
+          <p class="section-subtitle">Crafted with organic ingredients, local roasts, and feline-friendly safety standards. Served fresh in our dining nook or lounge.</p>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="menu-tabs-bar" role="tablist" aria-label="Menu Categories">
+          <button class="menu-tab active" data-menu-category="coffee" role="tab" aria-selected="true">
+            <svg class="tab-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+            <span>Artisanal Coffee & Teas</span>
+          </button>
+          <button class="menu-tab" data-menu-category="pastries" role="tab" aria-selected="false">
+            <svg class="tab-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>Pastries & Scratch Bakes</span>
+          </button>
+          <button class="menu-tab" data-menu-category="cat-treats" role="tab" aria-selected="false">
+            <svg class="tab-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            <span>Cat-Safe Treats</span>
+          </button>
+        </div>
+
+        <!-- Dietary Tag Filter -->
+        <div class="dietary-filter-bar">
+          <span class="dietary-label">Filter Dietary:</span>
+          <button class="dietary-chip active" data-dietary="all">All Items</button>
+          <button class="dietary-chip" data-dietary="vegan">Vegan</button>
+          <button class="dietary-chip" data-dietary="gf">Gluten-Free</button>
+          <button class="dietary-chip" data-dietary="cat-safe">Cat-Friendly</button>
+        </div>
+
+        <!-- Menu Grid Layout -->
+        <div class="menu-grid-container" id="menu-grid">
+          <!-- Dynamically render items based on tab & filter -->
+        </div>
+      </div>
+    </section>
+
+    <!-- VISIT & BOOKING SECTION (Dark Terracotta Highlight) -->
+    <section class="booking-section dark-terracotta reveal" id="visit">
+      <div class="container">
+        <div class="booking-wrapper">
+          <div class="booking-header text-center">
+            <span class="section-tag tag-light">Reserve Your Visit</span>
+            <h2 class="booking-title">Book a Cozy Cat Lounge Session</h2>
+            <p class="booking-subtitle">Lounge sessions are 50 minutes long to allow for cat rest intervals. Entry includes full cat access and a 15% cafe credit.</p>
+          </div>
+
+          <div class="booking-widget-card">
+            <form id="booking-form" onsubmit="return false;">
+              <div class="booking-grid">
+                <!-- Step 1: Date Selector -->
+                <div class="booking-field">
+                  <label class="booking-label">1. Choose Date</label>
+                  <div class="date-chip-selector" id="date-chips">
+                    <!-- Dynamic Date Chips Generated via JS -->
+                  </div>
+                </div>
+
+                <!-- Step 2: Time Slot Selector -->
+                <div class="booking-field">
+                  <label class="booking-label">2. Select Time Slot</label>
+                  <div class="time-slot-grid" id="time-slots">
+                    <button type="button" class="time-slot-btn active" data-time="10:00 AM">10:00 AM</button>
+                    <button type="button" class="time-slot-btn" data-time="11:30 AM">11:30 AM</button>
+                    <button type="button" class="time-slot-btn" data-time="01:00 PM">01:00 PM</button>
+                    <button type="button" class="time-slot-btn" data-time="02:30 PM">02:30 PM</button>
+                    <button type="button" class="time-slot-btn" data-time="04:00 PM">04:00 PM</button>
+                    <button type="button" class="time-slot-btn" data-time="05:30 PM">05:30 PM</button>
+                    <button type="button" class="time-slot-btn" data-time="07:00 PM">07:00 PM</button>
+                  </div>
+                </div>
+
+                <!-- Step 3: Guests Counter -->
+                <div class="booking-field">
+                  <label class="booking-label">3. Number of Guests ($15 / person)</label>
+                  <div class="guest-counter-row">
+                    <button type="button" class="counter-btn" id="guest-minus" aria-label="Decrease guest count">-</button>
+                    <span class="guest-count-display" id="guest-count">2</span>
+                    <button type="button" class="counter-btn" id="guest-plus" aria-label="Increase guest count">+</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Instant Summary Card -->
+              <div class="booking-summary-bar">
+                <div class="summary-details">
+                  <div class="summary-item">
+                    <span class="summary-lbl">Selected Slot:</span>
+                    <strong class="summary-val" id="summary-datetime">Today, 10:00 AM</strong>
+                  </div>
+                  <div class="summary-item">
+                    <span class="summary-lbl">Party Size:</span>
+                    <strong class="summary-val" id="summary-party">2 Guests</strong>
+                  </div>
+                  <div class="summary-item summary-total">
+                    <span class="summary-lbl">Total Entry Fee:</span>
+                    <strong class="summary-val price-highlight" id="summary-total-price">$30.00</strong>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-booking-submit" id="confirm-booking-btn">
+                  Confirm Reservation
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOUSE RULES ACCORDION SECTION -->
+    <section class="rules-section reveal" id="rules">
+      <div class="container">
+        <div class="section-title-wrap text-center">
+          <span class="section-tag">Sanctuary Guidelines</span>
+          <h2 class="section-title">Cat Etiquette & House Rules</h2>
+          <p class="section-subtitle">To ensure our resident and adoptable cats feel safe, happy, and respected, please review our lounge guidelines before your visit.</p>
+        </div>
+
+        <div class="accordion-container" id="rules-accordion">
+          <!-- Accordion Item 1 -->
+          <div class="accordion-item active">
+            <button class="accordion-header" aria-expanded="true">
+              <span class="accordion-title">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Let Sleeping Cats Lie
+              </span>
+              <svg class="accordion-chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="accordion-content">
+              <p>Cats need plenty of sleep! Please do not wake a sleeping cat, pull their tail, or pick them up forcibly. If a cat approaches your lap or seat on their own terms, enjoy the purrs!</p>
+            </div>
+          </div>
+
+          <!-- Accordion Item 2 -->
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false">
+              <span class="accordion-title">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                No Flash Photography
+              </span>
+              <svg class="accordion-chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="accordion-content">
+              <p>Felines have sensitive eyes. Photos and videos are strongly encouraged, but please ensure your camera flash is turned off completely at all times.</p>
+            </div>
+          </div>
+
+          <!-- Accordion Item 3 -->
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false">
+              <span class="accordion-title">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+                Outside Food & Human Snacks Prohibited
+              </span>
+              <svg class="accordion-chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="accordion-content">
+              <p>Human treats like chocolate, coffee, or dairy can be toxic to cats. You may only feed cats designated snacks purchased directly from our menu under staff guidance.</p>
+            </div>
+          </div>
+
+          <!-- Accordion Item 4 -->
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false">
+              <span class="accordion-title">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+                Children Supervision & Hygiene
+              </span>
+              <svg class="accordion-chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="accordion-content">
+              <p>Children under 12 must be accompanied by an adult (1:2 ratio). All guests must sanitize hands before entering and after leaving the feline lounge area.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="faq-section reveal" id="faq">
+      <div class="container">
+        <div class="section-title-wrap text-center">
+          <span class="section-tag">Got Questions?</span>
+          <h2 class="section-title">Frequently Asked Questions</h2>
+        </div>
+
+        <div class="accordion-container" id="faq-accordion">
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false">
+              <span class="accordion-title">How does the adoption process work?</span>
+              <svg class="accordion-chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="accordion-content">
+              <p>If you connect with an adoptable cat during your visit, fill out an inquiry form with our lounge staff or online. Our shelter partner reviews applications within 24–48 hours to ensure a perfect match!</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false">
+              <span class="accordion-title">Are walk-ins accepted or do I need a booking?</span>
+              <svg class="accordion-chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="accordion-content">
+              <p>We welcome walk-ins whenever space permits! However, because lounge capacity is strictly limited to 14 guests at a time for feline comfort, online reservations are strongly recommended on weekends.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false">
+              <span class="accordion-title">Can I bring my own pet cat to the cafe?</span>
+              <svg class="accordion-chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="accordion-content">
+              <p>For territory management and health safety, personal pets are strictly not allowed inside the cafe or lounge space. All resident felines are fully vaccinated and health-screened.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- CAT PROFILE POPUP MODAL -->
+  <div class="modal" id="cat-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-cat-name">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-card">
+      <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+      <div class="modal-body" id="modal-body">
+        <!-- Dynamic cat modal details filled via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- WARM CREAM FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="grid footer-grid">
+        <div class="footer-col footer-brand">
+          <a href="#top" class="logo-link logo-footer">
+            <svg class="logo-icon" viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 10c0-2.2 1.8-4 4-4s4 1.8 4 4v2H12v-2z"/>
+              <path d="M8 14c-2.2 0-4 1.8-4 4v4c0 4.4 3.6 8 8 8h8c4.4 0 8-3.6 8-8v-4c0-2.2-1.8-4-4-4"/>
+              <circle cx="11" cy="19" r="1.5" fill="currentColor"/>
+              <circle cx="21" cy="19" r="1.5" fill="currentColor"/>
+              <path d="M16 21v2"/>
+            </svg>
+            <span class="logo-text">Paws & Purr</span>
+          </a>
+          <p class="footer-desc">A serene artisanal cat cafe dedicated to single-origin espresso, scratch pastry bakes, and finding loving homes for rescue cats.</p>
+          <div class="social-links">
+            <a href="#" class="social-icon" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="TikTok">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">Quick Navigation</h4>
+          <ul class="footer-nav-list">
+            <li><a href="#experience">Lounge Experience</a></li>
+            <li><a href="#felines">Meet the Felines</a></li>
+            <li><a href="#menu">Cafe & Bakery Menu</a></li>
+            <li><a href="#visit">Book Lounge Session</a></li>
+            <li><a href="#rules">House Rules & Guidelines</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">Hours & Location</h4>
+          <div class="hours-matrix">
+            <div class="hours-row">
+              <span>Mon - Thu:</span>
+              <strong>9:00 AM - 7:00 PM</strong>
+            </div>
+            <div class="hours-row">
+              <span>Fri - Sat:</span>
+              <strong>8:30 AM - 8:30 PM</strong>
+            </div>
+            <div class="hours-row">
+              <span>Sunday:</span>
+              <strong>9:30 AM - 6:00 PM</strong>
+            </div>
+          </div>
+          <p class="address-line">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2

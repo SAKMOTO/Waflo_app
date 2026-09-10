@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ember & Bean Coffee Roasters | Specialty Micro-Roastery</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="announcement-bar">
+    <span>Free local delivery on orders over $40 &bull; Freshly roasted every Tuesday & Thursday</span>
+  </div>
+
+  <!-- HEADER / NAVBAR -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="brand-logo">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+          <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+          <line x1="6" y1="1" x2="6" y2="4"></line>
+          <line x1="10" y1="1" x2="10" y2="4"></line>
+          <line x1="14" y1="1" x2="14" y2="4"></line>
+        </svg>
+        <div class="logo-text">
+          <span class="logo-title">EMBER & BEAN</span>
+          <span class="logo-sub">COFFEE ROASTERS</span>
+        </div>
+      </a>
+
+      <nav class="desktop-nav">
+        <a href="#story" class="nav-link">Our Story</a>
+        <a href="#catalog" class="nav-link">Shop Beans</a>
+        <a href="#finder" class="nav-link">Bean Finder</a>
+        <a href="#brew-guide" class="nav-link">Brew Guide</a>
+        <a href="#visit" class="nav-link">Café & Roastery</a>
+      </nav>
+
+      <div class="header-actions">
+        <button id="open-cart-btn" class="cart-trigger" aria-label="View Shopping Bag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="cart-count" id="cart-count">0</span>
+        </button>
+        <button class="mobile-menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Dropdown -->
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="#story" class="mobile-nav-link">Our Story</a>
+      <a href="#catalog" class="mobile-nav-link">Shop Beans</a>
+      <a href="#finder" class="mobile-nav-link">Bean Finder</a>
+      <a href="#brew-guide" class="mobile-nav-link">Brew Guide</a>
+      <a href="#visit" class="mobile-nav-link">Café & Roastery</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero-overlay"></div>
+      <div class="container hero-content">
+        <div class="hero-badge">Small Batch Specialty Roaster</div>
+        <h1 class="hero-title">Artisanally Roasted. Uncompromisingly Sourced.</h1>
+        <p class="hero-subtitle">Direct-trade single origins and signature blends roasted weekly in small batches to unleash every bean's distinctive character.</p>
+        <div class="hero-cta-group">
+          <a href="#catalog" class="btn btn-primary">
+            <span>Explore Our Beans</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+          <a href="#brew-guide" class="btn btn-outline-light">Master Your Brew</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROASTERY STORY SECTION -->
+    <section id="story" class="section story-section">
+      <div class="container">
+        <div class="story-grid">
+          <div class="story-text">
+            <div class="section-tag">Sourcing Philosophy</div>
+            <h2 class="section-title">From High-Altitude Farms Direct to Your Cup</h2>
+            <p>At Ember & Bean, we believe exceptional coffee starts with ethical relationships. We partner directly with smallholder farmers across East Africa, Central, and South America, paying premiums well above fair-trade minimums.</p>
+            <p>Every harvest is meticulously cupped and profiled. We roast on our custom cast-iron drum roaster, carefully controlling heat vectors to bring out bright florals, rich cocoa undertones, and clean, lingering finishes.</p>
+            <div class="story-stats">
+              <div class="stat-card">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Traceable Origins</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">86+</span>
+                <span class="stat-label">Cupping Score Min.</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">2x</span>
+                <span class="stat-label">Weekly Fresh Roasts</span>
+              </div>
+            </div>
+          </div>
+          <div class="story-card-visual">
+            <div class="visual-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+              <span>Direct-Trade Certified</span>
+            </div>
+            <div class="visual-content">
+              <h3>Our Roasting Commitment</h3>
+              <ul class="check-list">
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Small-batch drum roasting under 12kg</span>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Roast date stamped on every single bag</span>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>100% Compostable nitrogen-flushed bags</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICK MATCHER / COFFEE FINDER -->
+    <section id="finder" class="section finder-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <div class="section-tag">Interactive Matcher</div>
+          <h2 class="section-title">Find Your Perfect Roast Match</h2>
+          <p class="section-subtitle">Answer two simple questions to discover the exact bean tailored to your morning ritual.</p>
+        </div>
+
+        <div class="finder-card">
+          <div class="finder-step">
+            <label class="finder-label">1. How do you usually prepare your coffee?</label>
+            <div class="finder-options" id="finder-method">
+              <button class="chip-option active" data-value="all">Any Method</button>
+              <button class="chip-option" data-value="pourover">Pour Over / Chemex</button>
+              <button class="chip-option" data-value="espresso">Espresso / Moka</button>
+              <button class="chip-option" data-value="frenchpress">French Press / Immersion</button>
+            </div>
+          </div>
+
+          <div class="finder-step">
+            <label class="finder-label">2. Which flavor notes appeal to you most?</label>
+            <div class="finder-options" id="finder-taste">
+              <button class="chip-option active" data-value="all">All Profiles</button>
+              <button class="chip-option" data-value="fruity">Bright, Fruity & Floral</button>
+              <button class="chip-option" data-value="chocolate">Chocolate, Caramel & Nuts</button>
+              <button class="chip-option" data-value="bold">Earthy, Bold & Smokey</button>
+            </div>
+          </div>
+
+          <div class="finder-result-box" id="finder-result">
+            <div class="result-text">
+              <span class="result-highlight" id="finder-match-count">6 Beans Match</span> your brew style and flavor preference.
+            </div>
+            <button class="btn btn-primary btn-sm" id="apply-finder-btn">Show Filtered Beans</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BEAN CATALOG & FILTER BAR -->
+    <section id="catalog" class="section catalog-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="section-tag">Freshly Roasted Selection</div>
+            <h2 class="section-title">Explore Our Micro-Lot Catalog</h2>
+          </div>
+          <!-- Filter Bar -->
+          <div class="filter-bar" id="filter-bar">
+            <button class="filter-btn active" data-filter="all">All Roasts</button>
+            <button class="filter-btn" data-filter="light">Light Roast</button>
+            <button class="filter-btn" data-filter="medium">Medium Roast</button>
+            <button class="filter-btn" data-filter="dark">Dark Roast</button>
+            <button class="filter-btn" data-filter="single-origin">Single Origin</button>
+          </div>
+        </div>
+
+        <!-- Beans Grid -->
+        <div class="bean-grid" id="bean-grid">
+          <!-- Dynamic JS Injection -->
+        </div>
+      </div>
+    </section>
+
+    <!-- BREW GUIDE & INTERACTIVE CALCULATOR -->
+    <section id="brew-guide" class="section brew-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <div class="section-tag">Barista Craft</div>
+          <h2 class="section-title">Interactive Brew Guides & Calculator</h2>
+          <p class="section-subtitle">Precision matters. Scale your water and coffee grounds for consistent, restaurant-quality coffee at home.</p>
+        </div>
+
+        <!-- Recipe Tabs -->
+        <div class="recipe-tabs" id="recipe-tabs">
+          <button class="recipe-tab active" data-recipe="pourover">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L4 12h16L12 2z"></path><path d="M6 12v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-6"></path></svg>
+            <span>Pour Over</span>
+          </button>
+          <button class="recipe-tab" data-recipe="frenchpress">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="12" height="16" rx="2"></rect><line x1="4" y1="8" x2="20" y2="8"></line><line x1="12" y1="2" x2="12" y2="4"></line></svg>
+            <span>French Press</span>
+          </button>
+          <button class="recipe-tab" data-recipe="espresso">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path></svg>
+            <span>Espresso</span>
+          </button>
+        </div>
+
+        <div class="brew-container">
+          <!-- Calculator Panel -->
+          <div class="brew-calculator">
+            <h3 class="calc-title">Interactive Ratio Calculator</h3>
+            <p class="calc-desc">Adjust cup count to instantly re-calculate coffee and water ratio.</p>
+
+            <div class="calc-control">
+              <label for="cup-slider">Number of Cups: <strong id="cup-value">2 Cups</strong></label>
+              <input type="range" id="cup-slider" min="1" max="8" value="2" step="1">
+            </div>
+
+            <div class="calc-results">
+              <div class="calc-card">
+                <span class="calc-card-value" id="calc-coffee">30 g</span>
+                <span class="calc-card-label">Coffee Grounds</span>
+              </div>
+              <div class="calc-card-divider">:</div>
+              <div class="calc-card">
+                <span class="calc-card-value" id="calc-water">450 ml</span>
+                <span class="calc-card-label">Hot Water</span>
+              </div>
+            </div>
+
+            <div class="calc-specs">
+              <div class="spec-item">
+                <span class="spec-label">Brew Ratio</span>
+                <span class="spec-value" id="spec-ratio">1 : 15</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Grind Size</span>
+                <span class="spec-value" id="spec-grind">Medium-Fine</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Water Temp</span>
+                <span class="spec-value" id="spec-temp">93°C / 200°F</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Target Time</span>
+                <span class="spec-value" id="spec-time">3:00 mins</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step Accordion Guide -->
+          <div class="brew-accordion" id="brew-accordion">
+            <!-- Dynamic JS injection -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISIT & CONTACT SECTION -->
+    <section id="visit" class="section visit-section">
+      <div class="container">
+        <div class="visit-grid">
+          <!-- Contact & Info -->
+          <div class="visit-info">
+            <div class="section-tag">Visit Our Roastery</div>
+            <h2 class="section-title">Taste Fresh Single Origins At The Source</h2>
+            <p>Our flag-ship tasting room and roastery is situated in Portland's historic industrial district. Come watch our master roaster in action while enjoying espresso, seasonal pour-overs, and fresh baked goods.</p>
+
+            <div class="info-blocks">
+              <div class="info-item">
+                <div class="info-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
+                <div>
+                  <strong>Address</strong>
+                  <p>142 Roastworks Way, Suite 100<br>Portland, OR 97201</p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                </div>
+                <div>
+                  <strong>Café Hours</strong>
+                  <p>Mon &ndash; Fri: 7:00 AM &ndash; 6:00 PM<br>Sat &ndash; Sun: 8:00 AM &ndash; 5:00 PM</p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                </div>
+                <div>
+                  <strong>Live Batch Roasting Schedule</strong>
+                  <p>Tuesdays & Thursdays: 8:00 AM &ndash; 12:00 PM<br><small class="text-muted">Visitor seating available right next to the roaster drum.</small></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Map & Contact Form Column -->
+          <div class="visit-side">
+            <!-- Stylized Map Placeholder -->
+            <div class="map-card">
+              <div class="map-visual">
+                <div class="map-grid-lines"></div>
+                <div class="map-pin">
+                  <div class="pin-pulse"></div>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
+                <span class="map-tag">Ember & Bean HQ</span>
+              </div>
+            </div>
+
+            <!-- Quick Inquiry Form -->
+            <form class="contact-form" id="contact-form">
+              <h3>Get In Touch</h3>
+              <div class="form-group">
+                <input type="text" id="contact-name" placeholder="Your Name" required>
+              </div>
+              <div class="form-group">
+                <input type="email" id="contact-email" placeholder="Your Email Address" required>
+              </div>
+              <div class="form-group">
+                <textarea id="contact-message" rows="3" placeholder="Wholesale inquiry, event booking, or bean questions..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col brand-col">
+        <div class="brand-logo">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+            <line x1="6" y1="1" x2="6" y2="4"></line>
+            <line x1="10" y1="1" x2="10" y2="4"></line>
+            <line x1="14" y1="1" x2="14" y2="4"></line>
+          </svg>
+          <span class="logo-title">EMBER & BEAN</span>
+        </div>
+        <p class="footer-tagline">Crafting exceptional specialty coffee with micro-roast precision and direct farm trade transparency.</p>
+        <div class="social-icons">
+          <a href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+          <a href="#" aria-label="Twitter">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="#story">Our Story</a></li>
+          <li><a href="#catalog">Shop Micro-Lots</a></li>
+          <li><a href="#finder">Coffee Matcher</a></li>
+          <li><a href="#brew-guide">Brew Guides</a></li>
+          <li><a href="#visit">Café & Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Opening Hours</h4>
+        <div class="hours-summary">
+          <p><strong>Café Bar:</strong><br>Mon - Fri: 7am - 6pm<br>Sat - Sun: 8am - 5pm</p>
+          <p><strong>Roastery Tours:</strong><br>Thu & Sat: 11:00 AM</p>
+        </div>
+      </div>
+
+      <div class="footer-col newsletter-col">
+        <h4>The Ember Letter</h4>
+        <p>Subscribe for exclusive early access to rare micro-lots, seasonal roasts, and home brewing tips.</p>
+        <form class="newsletter-form" id="newsletter-form">
+          <input type="email" placeholder="Enter your email" required>
+          <button type="submit" class="btn btn-primary">Join</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-bottom container">
+      <p>&copy; <span id="current-year"></span> Ember & Bean Coffee Roasters. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Wholesale Inquiries</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CART DRAWER (SLIDE-OVER) -->
+  <div class="cart-backdrop" id="cart-backdrop"></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-hidden="true">
+    <div class="cart-header">
+      <h3>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:8px;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        Your Coffee Bag
+      </h3>
+      <button class="cart-close-btn" id="close-cart-btn" aria-label="Close Cart">&times;</button>
+    </div>
+
+    <div class="cart-body" id="cart-items">
+      <!-- Dynamic JS render -->
+    </div>
+
+    <div class="cart-footer">
+      <div class="cart-summary-line">
+        <span>Subtotal</span>
+        <strong id="cart-subtotal">$0.00</strong>
+      </div>
+      <div class="cart-summary-line free-shipping-line">
+        <span id="shipping-status-text">Free shipping on orders over $40</span>
+      </div>
+      <button class="btn btn-primary btn-block" id="checkout-btn" disabled>Proceed to Checkout</button>
+    </div>
+  </aside>
+
+  <!-- CHECKOUT SIMULATION MODAL -->
+  <div class="modal-backdrop" id="modal-backdrop">
+    <div class="modal-box">
+      <button class="modal-close" id="modal-close">&times;</button>
+      <div id="modal-content">
+        <!-- Dynamic content via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

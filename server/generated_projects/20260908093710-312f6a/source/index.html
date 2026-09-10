@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bean & Brew | Artisan Roasters</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Sticky Header Navigation -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#home" class="brand-logo">
+        <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 2C10 2 6 7 6 13C6 19.5 11.5 25.5 16 30C20.5 25.5 26 19.5 26 13C26 7 22 2 16 2ZM16 24C12.5 20.2 9 16 9 13C9 9 11.8 5 16 5C20.2 5 23 9 23 13C23 16 19.5 20.2 16 24Z" fill="currentColor"/>
+          <path d="M16 7C14.5 10 14.5 16 16 19C17.5 16 17.5 10 16 7Z" fill="currentColor"/>
+        </svg>
+        <span class="brand-text">BEAN & BREW <span class="brand-sub">ARTISAN ROASTERS</span></span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#story" class="nav-link">Our Story</a>
+        <a href="#menu" class="nav-link">Menu</a>
+        <a href="#visit" class="nav-link">Visit & Hours</a>
+        <a href="#reviews" class="nav-link">Reviews</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="cart-btn" id="cartToggleBtn" aria-label="Open Shopping Cart">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="cart-count-badge" id="cartBadge">0</span>
+        </button>
+
+        <button class="mobile-toggle" id="mobileToggleBtn" aria-label="Toggle Mobile Navigation">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main>
+    <!-- HERO SECTION -->
+    <section id="home" class="hero">
+      <div class="hero-bg-overlay"></div>
+      <div class="hero-content">
+        <span class="hero-badge">Micro-Batch Roastery & Bakery</span>
+        <h1 class="hero-title">Crafted with Passion.<br><span class="highlight">Roasted to Perfection.</span></h1>
+        <p class="hero-subtitle">Experience single-origin coffees sourced directly from sustainable high-altitude farms, hand-roasted daily and served with artisanal warm pastries.</p>
+        
+        <div class="hero-cta-group">
+          <a href="#menu" class="btn btn-primary">
+            <span>View Full Menu</span>
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a href="#visit" class="btn btn-secondary">
+            <span>Find Our Cafe</span>
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Organic Arabica</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">48 Hr</span>
+            <span class="stat-label">Roast-to-Cup</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">14+</span>
+            <span class="stat-label">Direct Farm Origins</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED HIGHLIGHTS -->
+    <section class="section section-highlights">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Barista Curations</span>
+          <h2 class="section-title">Today's Roaster Highlights</h2>
+          <p class="section-description">Handpicked favorites crafted with our current seasonal dark & medium roast profiles.</p>
+        </div>
+
+        <div class="highlights-grid" id="featuredGrid">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CRAFT STORY SECTION -->
+    <section id="story" class="section section-story">
+      <div class="container grid-2col">
+        <div class="story-graphic">
+          <div class="graphic-card">
+            <div class="roast-badge-floating">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <div>
+                <strong>Roasted Fresh Daily</strong>
+                <small>6:00 AM Small Batches</small>
+              </div>
+            </div>
+            <div class="story-image-placeholder">
+              <svg class="story-art-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="80" fill="#2A1810" opacity="0.1"/>
+                <path d="M60 130 C 60 160, 140 160, 140 130 L 135 70 L 65 70 Z" fill="#2A1810"/>
+                <path d="M135 80 C 155 80, 155 110, 135 110" stroke="#C88A35" stroke-width="6" stroke-linecap="round"/>
+                <path d="M75 55 Q 85 35 75 20" stroke="#C88A35" stroke-width="3" stroke-linecap="round" fill="none"/>
+                <path d="M100 55 Q 110 35 100 20" stroke="#C88A35" stroke-width="3" stroke-linecap="round" fill="none"/>
+                <path d="M125 55 Q 135 35 125 20" stroke="#C88A35" stroke-width="3" stroke-linecap="round" fill="none"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="story-content">
+          <span class="section-tag">Our Heritage</span>
+          <h2 class="section-title">From High-Altitude Farms to Your Morning Cup</h2>
+          <p class="paragraph">Founded in 2016, Bean & Brew began with a simple vision: honoring the meticulous journey of the coffee bean. We form direct trade relationships with eco-friendly micro-farms in Ethiopia, Colombia, and Guatemala.</p>
+          <p class="paragraph">Every morning, our master roasters meticulously sample and heat batches in our vintage cast-iron roaster to pull out notes of wild berries, velvet dark chocolate, and roasted hazelnut.</p>
+
+          <div class="story-features">
+            <div class="feature-box">
+              <div class="feature-icon">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <div>
+                <h4 class="feature-title">Direct Trade Ethically Sourced</h4>
+                <p class="feature-desc">We pay 35% above fair-trade prices directly to farmer collectives.</p>
+              </div>
+            </div>
+
+            <div class="feature-box">
+              <div class="feature-icon">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+              </div>
+              <div>
+                <h4 class="feature-title">Zero-Waste Bakehouse</h4>
+                <p class="feature-desc">Our pastries are handcrafted using locally farmed butter and zero preservatives.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="section section-menu">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">Artisanal Offerings</span>
+          <h2 class="section-title">Explore Our Menu</h2>
+          <p class="section-description">Select a category below to browse our single-origin espressos, slow brews, signature beverages, and fresh bakery treats.</p>
+        </div>
+
+        <!-- Menu Filter Controls -->
+        <div class="menu-controls">
+          <div class="category-tabs" id="categoryTabs">
+            <button class="tab-btn active" data-category="all">All Items</button>
+            <button class="tab-btn" data-category="espresso">Espresso</button>
+            <button class="tab-btn" data-category="brews">Filter & Pour Over</button>
+            <button class="tab-btn" data-category="bakery">Fresh Bakery</button>
+            <button class="tab-btn" data-category="specials">Specials & Cold</button>
+          </div>
+
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="menuSearchInput" placeholder="Search menu (e.g., Caramel, Croissant)..." aria-label="Search Menu">
+            <button id="clearSearchBtn" class="clear-search-btn" title="Clear Search">&times;</button>
+          </div>
+        </div>
+
+        <!-- Menu Items Grid -->
+        <div class="menu-grid" id="menuGrid">
+          <!-- Dynamic rendering from script.js -->
+        </div>
+
+        <div id="noResults" class="no-results hidden">
+          <svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+          <h3>No coffee or treat found</h3>
+          <p>Try searching for a different keyword or switch categories.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STORE HOURS & LOCATION SECTION -->
+    <section id="visit" class="section section-visit">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Visit Our Roastery</span>
+          <h2 class="section-title">Hours & Location</h2>
+          <p class="section-description">Drop by for your morning brew, afternoon study session, or bag of fresh whole-bean coffee.</p>
+        </div>
+
+        <div class="visit-grid">
+          <!-- Hours & Live Status Widget -->
+          <div class="hours-card">
+            <div class="status-header">
+              <h3>Store Schedule</h3>
+              <div id="liveStatusBadge" class="status-badge">
+                <span class="status-dot"></span>
+                <span id="statusText">Checking status...</span>
+              </div>
+            </div>
+
+            <p class="status-message" id="statusDetailMessage">Calculating real-time operating hours...</p>
+
+            <ul class="hours-list" id="hoursList">
+              <!-- Populated by JavaScript -->
+            </ul>
+
+            <div class="store-info-box">
+              <div class="info-item">
+                <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span>452 Roast Master Way, Craft District, Cityville</span>
+              </div>
+              <div class="info-item">
+                <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <span>(555) 839-2739</span>
+              </div>
+              <div class="info-item">
+                <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <span>hello@beanandbrew.com</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Map Component -->
+          <div class="map-card">
+            <div class="map-container">
+              <svg class="map-vector" viewBox="0 0 500 350" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Map Stylized Design -->
+                <rect width="500" height="350" fill="#EAE3D9" rx="12"/>
+                <!-- Rivers & Parks -->
+                <path d="M0 180 Q 150 120 280 220 T 500 190" stroke="#C5D3C1" stroke-width="30" fill="none"/>
+                <path d="M 320 40 L 460 40 L 460 140 L 320 140 Z" fill="#D3E0CD" rx="10"/>
+                <!-- Grid Streets -->
+                <line x1="50" y1="0" x2="50" y2="350" stroke="#FAF6F0" stroke-width="8"/>
+                <line x1="150" y1="0" x2="150" y2="350" stroke="#FAF6F0" stroke-width="12"/>
+                <line x1="280" y1="0" x2="280" y2="350" stroke="#FAF6F0" stroke-width="10"/>
+                <line x1="400" y1="0" x2="400" y2="350" stroke="#FAF6F0" stroke-width="8"/>
+                <line x1="0" y1="90" x2="500" y2="90" stroke="#FAF6F0" stroke-width="10"/>
+                <line x1="0" y1="200" x2="500" y2="200" stroke="#FAF6F0" stroke-width="14"/>
+                <line x1="0" y1="290" x2="500" y2="290" stroke="#FAF6F0" stroke-width="8"/>
+
+                <!-- Location Marker -->
+                <g class="map-pin-group" transform="translate(280, 200)">
+                  <circle cx="0" cy="0" r="24" fill="#C88A35" opacity="0.25" class="pin-pulse"/>
+                  <circle cx="0" cy="0" r="14" fill="#2A1810"/>
+                  <path d="M-6 -2 L0 -10 L6 -2 C6 4 0 8 0 8 C0 8 -6 4 -6 -2 Z" fill="#C88A35"/>
+                  <circle cx="0" cy="-3" r="2.5" fill="#FAF6F0"/>
+                </g>
+
+                <!-- Label Overlay -->
+                <g transform="translate(200, 140)">
+                  <rect x="0" y="0" width="160" height="36" rx="6" fill="#2A1810" opacity="0.9"/>
+                  <text x="80" y="22" fill="#FAF6F0" font-size="12" font-weight="bold" text-anchor="middle">Bean & Brew Roastery</text>
+                </g>
+              </svg>
+            </div>
+            <div class="map-footer">
+              <div>
+                <strong>Free Street Parking Available</strong>
+                <p>Located next to Central Park station (Exit B)</p>
+              </div>
+              <a href="https://maps.google.com" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">Get Directions</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CUSTOMER REVIEWS -->
+    <section id="reviews" class="section section-reviews">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">Community Praise</span>
+          <h2 class="section-title">Loved by Coffee Enthusiasts</h2>
+          <p class="section-description">Here is what our regulars say about our roasts, ambiance, and bakery pastries.</p>
+        </div>
+
+        <div class="reviews-grid" id="reviewsGrid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT & RESERVATION SECTION -->
+    <section id="contact" class="section section-contact">
+      <div class="container">
+        <div class="contact-card-wrapper">
+          <div class="contact-info-panel">
+            <span class="section-tag light">Get in Touch</span>
+            <h2 class="section-title text-light">Table Booking & Inquiries</h2>
+            <p class="paragraph text-light-muted">Planning a private coffee tasting, ordering event catering, or reserving a cozy corner table? Drop us a message.</p>
+
+            <div class="contact-perks">
+              <div class="perk-item">
+                <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Private Cupping & Tasting Sessions</span>
+              </div>
+              <div class="perk-item">
+                <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Fresh Whole Bean Wholesale Supply</span>
+              </div>
+              <div class="perk-item">
+                <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Corporate Event Catering & Barista Station</span>
+              </div>
+            </div>
+          </div>
+
+          <form id="contactForm" class="contact-form">
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="contactName">Full Name</label>
+                <input type="text" id="contactName" placeholder="e.g. Jane Doe" required>
+              </div>
+              <div class="form-group">
+                <label for="contactEmail">Email Address</label>
+                <input type="email" id="contactEmail" placeholder="jane@example.com" required>
+              </div>
+            </div>
+
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="contactSubject">Topic / Inquiry</label>
+                <select id="contactSubject">
+                  <option value="Table Reservation">Table Reservation</option>
+                  <option value="Private Tasting">Private Coffee Tasting</option>
+                  <option value="Wholesale Beans">Wholesale Coffee Inquiry</option>
+                  <option value="General Feedback">General Feedback</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="contactGuests">Guests / Party Size</label>
+                <input type="number" id="contactGuests" min="1" max="20" value="2">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="contactMessage">Message Details</label>
+              <textarea id="contactMessage" rows="4" placeholder="Let us know your preferred date, time, or specific coffee preferences..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Send Inquiry</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- SLIDE-OVER CART DRAWER -->
+  <div class="cart-drawer-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="cart-header">
+      <div class="cart-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        <h3>Your Coffee Basket</h3>
+      </div>
+      <button class="close-btn" id="cartCloseBtn" aria-label="Close Cart">&times;</button>
+    </div>
+
+    <div class="cart-body" id="cartBody">
+      <!-- Dynamic cart items list -->
+    </div>
+
+    <div class="cart-footer" id="cartFooter">
+      <div class="cart-summary-line">
+        <span>Subtotal</span>
+        <span class="cart-total-amount" id="cartSubtotal">$0.00</span>
+      </div>
+      <p class="cart-tax-note">Taxes & pickup fee calculated at checkout.</p>
+
+      <div class="cart-actions">
+        <button class="btn btn-primary btn-block" id="checkoutBtn">Proceed to Pickup Order</button>
+        <button class="btn btn-outline btn-block" id="clearCartBtn">Clear Basket</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ITEM DETAIL MODAL -->
+  <div class="modal-overlay" id="itemModalOverlay">
+    <div class="modal-content" id="itemModal">
+      <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+      <div class="modal-body" id="modalBody">
+        <!-- Dynamic dynamic details -->
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT SIMULATION MODAL -->
+  <div class="modal-overlay" id="checkoutModalOverlay">
+    <div class="modal-content checkout-modal" id="checkoutModal">
+      <button class="modal-close-btn" id="checkoutCloseBtn">&times;</button>
+      <div class="checkout-header">
+        <svg class="icon-lg text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <h3>Confirm Express Pickup Order</h3>
+      </div>
+
+      <form id="checkoutForm" class="checkout-form">
+        <div class="checkout-order-summary" id="checkoutSummaryList">
+          <!-- Item list summary -->
+        </div>
+
+        <div class="form-group">
+          <label for="pickupName">Your Name</label>
+          <input type="text" id="pickupName" placeholder="Full name for pick-up banner" required>
+        </div>
+
+        <div class="form-group">
+          <label for="pickupTime">Estimated Pickup Time</label>
+          <select id="pickupTime" required>
+            <option value="15 min">In 15 Minutes</option>
+            <option value="30 min">In 30 Minutes</option>
+            <option value="45 min">In 45 Minutes</option>
+            <option value="60 min">In 1 Hour</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="pickupNotes">Special Instructions / Barista Notes</label>
+          <input type="text" id="pickupNotes" placeholder="e.g. Extra hot, oat milk in latte, leave bag unsealed">
+        </div>
+
+        <div class="checkout-final-total">
+          <span>Total Amount Due at Store:</span>
+          <strong id="checkoutTotal">$0.00</strong>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Place Pickup Order</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-col brand-col">
+        <div class="brand-logo footer-logo">
+          <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 2C10 2 6 7 6 13C6 19.5 11.5 25.5 16 30C20.5 25.5 26 19.5 26 13C26 7 22 2 16 2ZM16 24C12.5 20.2 9 16 9 13C9 9 11.8 5 16 5C20.2 5 23 9 23 13C23 16 19.5 20.2 16 24Z" fill="currentColor"/>
+          </svg>
+          <span class="brand-text">BEAN & BREW</span>
+        </div>
+        <p class="footer-tagline">Craft roasted with pride since 2016. Sustainable beans, local baking, and cozy city atmosphere.</p>
+        
+        <div class="social-links">
+          <a href="#" class="social-icon" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+          <a href="#" class="social-icon" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+          </a>
+          <a href="#" class="social-icon" aria-label="Twitter">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-title">Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#story">Our Craft Story</a></li>
+          <li><a href="#menu">Menu & Drinks</a></li>
+          <li><a href="#visit">Location & Hours</a></li>
+          <li><a href="#contact">Table Reservations</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-title">Roastery Dispatch</h4>
+        <p class="footer-text">Subscribe to get secret micro-lot release drops and exclusive cafe invites.</p>
+        <form id="newsletterForm" class="newsletter-form">
+          <input type="email" id="newsletterEmail" placeholder="Enter your email" required>
+          <button type="submit" class="btn btn-primary btn-sm">Subscribe</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-bottom text-center">
+      <p>&copy; <span id="currentYear"></span> Bean & Brew Artisan Roasters. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import os
 import re
 from typing import Optional, Callable, List
 from datetime import datetime
@@ -37,6 +38,7 @@ from pydantic_models.commerce_models import (
 from services.audit_service import AuditService
 from services.merchant_catalog_service import MerchantCatalogService
 from services.razorpay_service import RazorpayService, RazorpayServiceError
+from vendor_browser_use import bootstrap_vendored_browser_use, IS_VENDORED_PRESENT
 
 logger = logging.getLogger(__name__)
 
@@ -44,12 +46,16 @@ logger = logging.getLogger(__name__)
 def get_settings():
     return Settings()
 
+# Always resolve browser_use from the vendored <repo>/browser-use folder so a
+# stale PyPI pin can never shadow it.
+bootstrap_vendored_browser_use()
+
 try:
     from browser_use import Agent, BrowserSession, BrowserProfile, ChatGroq, ChatGoogle
     BROWSER_USE_AVAILABLE = True
 except ImportError:
     BROWSER_USE_AVAILABLE = False
-    logger.warning("browser-use not installed, commerce agent will not work")
+    logger.warning("browser-use not imported, commerce agent will not work")
 
 
 class CommerceAgentService:
@@ -120,8 +126,12 @@ class CommerceAgentService:
             'croma.com',
         ]
 
+        # Do NOT force headless=True/False here: browser-use auto-detects
+        # (visible browser on a machine with a display, headless otherwise),
+        # so the demo shows the live browser locally yet still runs on a
+        # headless judge server. BROWSER_USE_HEADLESS can force it either way.
         browser_profile = BrowserProfile(
-            headless=False,
+            headless=os.getenv('BROWSER_USE_HEADLESS', '') or None,
             allowed_domains=allowed_domains,
             minimum_wait_page_load_time=0.2,
             wait_between_actions=0.2,
@@ -130,7 +140,6 @@ class CommerceAgentService:
 
         return BrowserSession(
             browser_profile=browser_profile,
-            headless=False,
             allowed_domains=allowed_domains,
             keep_alive=False,
             user_data_dir=None,
@@ -588,6 +597,24 @@ class CommerceAgentService:
                 error_type="ImportError"
             ).model_dump())
             raise RuntimeError("browser-use is not available")
+
+        if not IS_VENDORED_PRESENT:
+            await self._send_event(event_callback, ErrorEvent(
+                task_id=task_id or "error",
+                message="The vendored browser-use folder (<repo>/browser-use) was not found. The shopping agent cannot start.",
+                error_type="ImportError"
+            ).model_dump())
+            raise RuntimeError("vendored browser-use not found")
+
+        try:
+            import playwright  # noqa: F401
+        except ImportError:
+            await self._send_event(event_callback, ErrorEvent(
+                task_id=task_id or "error",
+                message="Playwright is not installed in the backend environment. Run: pip install playwright && playwright install chromium",
+                error_type="ImportError"
+            ).model_dump())
+            raise RuntimeError("playwright is not installed")
         
         if not self.llm:
             await self._send_event(event_callback, ErrorEvent(
@@ -633,8 +660,8 @@ You are a shopping assistant. Your task is to find products based on this reques
 Steps to complete:
 1. Go to Google (google.com)
 2. Search for the product with the specified criteria
-3. Visit only 4-5 shopping/commerce websites from the search results (max 5, e.g. Amazon.in, Flipkart, Myntra, Reliance Digital, Croma)
-4. On each website, open the search/category results, then CLICK INTO at least 3-5 individual product listing pages and verify each product's details directly on its own product page (not just the category list).
+3. Visit only 2-3 shopping/commerce websites from the search results (max 3, e.g. Amazon.in, Flipkart, Myntra, Reliance Digital, Croma)
+4. On those websites, open the search/category results, then CLICK INTO 2-3 individual product listing pages IN TOTAL and verify each product's details directly on its own product page (not just the category list).
 5. For every individual product page you open, extract:
    - Product name (exact title)
    - Price (in ₹ or convert if needed)
@@ -646,13 +673,13 @@ Steps to complete:
 Budget constraint: {intent.get('max_budget', 'none specified')}
 Requirements: {', '.join(intent.get('requirements', [])) if intent.get('requirements') else 'none specified'}
 
-After visiting multiple websites and collecting product information, provide a final summary with:
+After visiting the websites and collecting product information, provide a final summary with:
 - Total products found
 - Top 3 recommendations with reasoning
 - Comparison of key features
 
-CRITICAL — this is verified by a judge: you MUST physically open at least 3-5 individual product pages (click a product in the search results and wait for its own page to load). Do NOT stop on search/category listings.
-Do NOT keep opening new platforms after you have collected products from 4-5 different websites.
+CRITICAL — this is verified by a judge: you MUST physically open 2-3 individual product pages (click a product in the search results and wait for its own page to load). Do NOT stop on search/category listings.
+Stop early — once you have collected 2-3 confirmed products, do NOT keep opening more websites or product pages.
 """
             
             await self._send_event(event_callback, AgentStatusEvent(
@@ -770,36 +797,47 @@ Do NOT keep opening new platforms after you have collected products from 4-5 dif
             history_all = "\n".join(history_parts)
             all_content = "\n".join(part for part in (memory_all, history_all) if part)
             products = self._extract_structured_products(all_content)
-            
-            # Send products as they're found
+
+            # Bounded result set: users don't want a wall of products. Rank every
+            # candidate by score, then keep only the top 3. The SAME short list
+            # feeds both the live "found" feed and the recommendations so the
+            # numbers always agree with what is shown.
+            scored_candidates = []
             for product in products:
+                if self.active_tasks.get(task_id, False):
+                    score, reasoning = self._score_product(product, intent)
+                    scored_candidates.append((score, product, reasoning))
+            scored_candidates.sort(key=lambda x: x[0], reverse=True)
+            TOP_RESULTS = 3
+            final_products = [row[1] for row in scored_candidates[:TOP_RESULTS]]
+
+            # Send products as they're found (bounded to the top 3)
+            for product in final_products:
                 if self.active_tasks.get(task_id, False):
                     await self._send_event(event_callback, ProductFoundEvent(
                         task_id=task_id,
                         product=product
                     ).model_dump())
-            
-            # Compare and rank products
+
+            # Compare and rank products (already ranked above — no re-scoring)
             await self._send_event(event_callback, AgentStatusEvent(
                 task_id=task_id,
                 status=AgentStatus.COMPARING,
                 message="Comparing products..."
             ).model_dump())
-            
+
             recommendations = []
-            for product in products:
-                if self.active_tasks.get(task_id, False):
-                    score, reasoning = self._score_product(product, intent)
-                    recommendations.append(Recommendation(
-                        product=product,
-                        score=score,
-                        reasoning=reasoning,
-                        matches_budget=product.price and product.price <= (intent.get('max_budget') or float('inf')),
-                        matches_requirements=len(reasoning) > 0
-                    ))
-            
+            for score, product, reasoning in scored_candidates[:TOP_RESULTS]:
+                recommendations.append(Recommendation(
+                    product=product,
+                    score=score,
+                    reasoning=reasoning,
+                    matches_budget=product.price and product.price <= (intent.get('max_budget') or float('inf')),
+                    matches_requirements=len(reasoning) > 0
+                ))
+
             recommendations.sort(key=lambda x: x.score, reverse=True)
-            top_recommendations = recommendations[:3]
+            top_recommendations = recommendations[:TOP_RESULTS]
 
             # Store per-task state so follow-up actions (select/compare/cross-sell/upsell) can run
             self.task_data[task_id] = {
@@ -1154,6 +1192,8 @@ Do NOT keep opening new platforms after you have collected products from 4-5 dif
                     pass
         all_content = "\n".join(part for part in (("\n".join(collected_text)), "\n".join(history_parts)) if part)
         products = self._extract_structured_products(all_content)
+        # Bounded: late secondary runs return at most 2-3 options, never a long list.
+        products = products[:3]
         if not products:
             await self._send_event(event_callback, ErrorEvent(
                 task_id=task_id,
@@ -1197,10 +1237,10 @@ Do NOT re-find the same product type. Instead find compatible accessories/add-on
 
 Steps:
 1. Search Google (google.com) for accessories compatible with "{base.name}".
-2. Visit only 4-5 shopping websites from results (max 5). Do not keep opening new platforms.
+2. Visit only 2-3 shopping websites from results (max 3). Do not keep opening new platforms.
 3. Open each accessory's individual product page to confirm the details there.
 4. For each accessory found, extract: exact name, live price (₹), key features, rating (if shown), availability, source URL.
-5. Return 3-5 relevant accessories.
+5. Return 2-3 relevant accessories.
 
 Only report products actually found on the pages. If price is missing write 'Not available'.
 """
@@ -1272,7 +1312,7 @@ that satisfies: {req_text} and use case: {use_case or 'general'}.
 
 Steps:
 1. Search Google (google.com) for a better alternative to "{base.name}" {budget_text}.
-2. Visit only 4-5 shopping websites from results (max 5). Do not keep opening new platforms.
+2. Visit only 2-3 shopping websites from results (max 3). Do not keep opening new platforms.
 3. Open the alternative's individual product page to confirm the details there.
 4. Extract for the best alternative: exact name, live price (₹), key features, rating, availability, source URL.
 5. In your final summary, explain HOW/WHY this alternative improves on "{base.name}" and whether it is above the original budget.
